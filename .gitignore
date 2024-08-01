@@ -1,0 +1,7 @@
+/*
+!site/
+site/config.php
+site/assets
+!.gitignore
+!.htaccess
+!README.md
