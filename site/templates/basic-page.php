@@ -7,9 +7,15 @@
 // You can also append to (or prepend to) the #content div, and much more. 
 // See the Markup Regions documentation:
 // https://processwire.com/docs/front-end/output/markup-regions/
-
+/*
+$page = $pages->add(
+	'basic-page',
+	'/this-is-htmx-test',
+	'new-test',
+);
+*/
+$PEI = new PagesExportImport();
+$postThing = $input->is("post");
+//return $PEI->exportJSON($page->children());
+return json_encode($postThing);
 ?>
-
-<div id="content">
-	Basic page content 
-</div>	

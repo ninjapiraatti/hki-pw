@@ -1,10 +1,46 @@
 <html>
-  <meta name="htmx-config" content='{"selfRequestOnly":"true"}'>
   <body>
     <script src="https://unpkg.com/htmx.org@2.0.1"></script>
-    <!-- have a button POST a click via AJAX -->
-    <button hx-get="http://localhost:8888/hki-pw" hx-swap="outerHTML">
-      Click Me
+
+    <!-- Input fields to collect data -->
+    <input type="text" id="name" placeholder="Enter your name">
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <button hx-get="http://localhost:8888/hki-pw/this-is-htmx-test" hx-swap="outerHTML" hx-target="#target">
+      GET
     </button>
+
+    <!-- Button to POST data via AJAX -->
+    <button
+      hx-post="http://localhost:8888/hki-pw/this-is-htmx-test/"
+      hx-swap="outerHTML"
+      hx-target="#target"
+      hx-params='{"name": document.getElementById("name").value, "email": document.getElementById("email").value}'
+      hx-trigger="click"
+    >
+      POST
+    </button>
+
+    <div id="target"></div>
+
+    <script>
+      // Optional: If you want to send JSON directly
+      document.querySelector('button').addEventListener('click', function() {
+        const data = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value
+        };
+
+        // Use HTMX to send the POST request with JSON data
+        htmx.ajax('POST', 'http://localhost:8888/hki-pw/this-is-htmx-test/', {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: JSON.stringify(data),
+          target: '#target',
+          swap: 'outerHTML'
+        });
+      });
+    </script>
   </body>
 </html>
