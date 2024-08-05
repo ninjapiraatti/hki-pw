@@ -1,9 +1,9 @@
 /*
 !site/
+!app/
 site/config.php
 site/assets
 site/.DS_Store
 !.gitignore
 !.htaccess
 !README.md
-!htmx-test.html

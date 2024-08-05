@@ -17,5 +17,6 @@ $page = $pages->add(
 $PEI = new PagesExportImport();
 $postThing = $input->is("post");
 //return $PEI->exportJSON($page->children());
-return json_encode($postThing);
+//return json_encode($postThing);
+return json_encode($input->post('data'));
 ?>
