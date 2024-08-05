@@ -1,4 +1,7 @@
-<?php namespace ProcessWire; 
+<?php namespace ProcessWire;
+header("Access-Control-Allow-Origin: *"); // Change '*' to your Vue app's origin for production
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
 // Template file for pages using the “basic-page” template
 // -------------------------------------------------------
@@ -17,6 +20,6 @@ $page = $pages->add(
 $PEI = new PagesExportImport();
 $postThing = $input->is("post");
 //return $PEI->exportJSON($page->children());
-//return json_encode($postThing);
-return json_encode($input->post('data'));
+return json_encode($postThing);
+//return json_encode($input->post('foo'));
 ?>
