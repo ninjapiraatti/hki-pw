@@ -2,7 +2,7 @@
 	<h1>Testing PW POST</h1>
 
 	<div class="card">
-		<button type="button" @click="getProcessWireData">Get shit</button>
+		<button type="button" @click="getProcessWireData">Post an article</button>
 		<p>{{ responseMessage }}</p>
 	</div>
 
@@ -25,11 +25,11 @@ const responseMessage = ref("")
 
 const getProcessWireData = async () => {
 	const payload = {
-		foo: "bar",
+		title: "Test Article",
 	}
 
 	try {
-		const response = await fetch("http://localhost:8888/hki-pw/this-is-htmx-test/", {
+		const response = await fetch("http://localhost:8888/hki-pw/articles/", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
