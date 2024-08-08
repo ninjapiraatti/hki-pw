@@ -1,18 +1,10 @@
-<script setup lang="ts">
-import Articles from "./views/Articles.vue"
-</script>
-
 <template>
-	<div>
-		<a href="https://vitejs.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vuejs.org/" target="_blank">
-			<img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-		</a>
-	</div>
-	<Articles />
+	<RouterView />
 </template>
+
+<script setup lang="ts">
+import { RouterView } from "vue-router"
+</script>
 
 <style scoped>
 .logo {
