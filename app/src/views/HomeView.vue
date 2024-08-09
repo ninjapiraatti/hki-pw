@@ -1,5 +1,7 @@
 <template>
-	<RouterLink :to="characterLink" tag="button">Make a character</RouterLink>
+	<router-link :to="characterLink" custom v-slot="{ navigate }">
+		<button @click="navigate" @keypress.enter="navigate" role="link">Create Character</button>
+	</router-link>
 </template>
 
 <script setup lang="ts">
