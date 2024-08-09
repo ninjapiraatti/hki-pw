@@ -1,4 +1,5 @@
 import ArticlesView from "../views/ArticlesView.vue"
+import CharacterView from "../views/CharacterView.vue"
 import HomeView from "../views/HomeView.vue"
 import NotFoundView from "../views/NotFoundView.vue"
 
@@ -16,6 +17,11 @@ const router = createRouter({
 			path: "/articles",
 			name: "Articles",
 			component: ArticlesView,
+		},
+		{
+			path: "/characters/:id",
+			name: "Character",
+			component: CharacterView,
 		},
     /*
 		{
