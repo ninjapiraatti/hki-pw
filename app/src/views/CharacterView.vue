@@ -8,7 +8,7 @@
 			</ul>
 			<button class="btn btn-secondary" @click="editCharacter">Edit Character</button>
 		</div>
-		<CharacterForm v-if="isEditing" :character="character" :onSubmit="handleSubmit" />
+		<CharacterForm :character="character" :onSubmit="handleSubmit" />
 	</div>
 </template>
 
@@ -21,19 +21,12 @@ const props = defineProps<{
 	character?: Character
 }>()
 
-const isEditing = ref(false)
 const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
 
 // Function to handle the submission of the form
 const handleSubmit = (character: Character) => {
 	// Handle the character submission (e.g., save to a database or state)
 	console.log("Character submitted:", character)
-	isEditing.value = false // Exit editing mode
-}
-
-// Function to enter editing mode
-const editCharacter = () => {
-	isEditing.value = true
 }
 
 onMounted(() => {
