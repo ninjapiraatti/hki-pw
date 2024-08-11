@@ -8,7 +8,7 @@
 			</ul>
 			<button class="btn btn-secondary">Edit Character</button>
 		</div>
-		<CharacterForm :character="character" @onSubmit="handleSubmit" />
+		<CharacterForm :character="character" @onSubmit="postCharacter" />
 	</div>
 </template>
 
@@ -23,10 +23,27 @@ const props = defineProps<{
 
 const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
 
-// Function to handle the submission of the form
-const handleSubmit = (character: Character) => {
-	// Handle the character submission (e.g., save to a database or state)
-	console.log("Character submitted:", character)
+const postCharacter = async (character: Character) => {
+	try {
+		console.log("Toon:", character)
+		const response = await fetch("http://localhost:8888/hki-pw/characters/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-Requested-With": "XMLHttpRequest",
+			},
+			body: JSON.stringify(character),
+		})
+
+		if (!response.ok) {
+			throw new Error("Network response was not ok")
+		}
+
+		const data = await response.json()
+		console.log(data)
+	} catch (error) {
+		console.error("Error:", error)
+	}
 }
 
 onMounted(() => {
