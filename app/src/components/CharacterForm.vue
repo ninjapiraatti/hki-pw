@@ -2,27 +2,33 @@
 	<div class="character-form">
 		<h3>{{ character ? "Edit Character" : "Create Character" }}</h3>
 		<form @submit.prevent="submitForm">
-			<div class="mb-3">
-				<label for="name" class="form-label">Name</label>
-				<input type="text" class="form-control" id="name" v-model="form.name" required />
+			<div class="mb-3 row">
+				<label for="name" class="col-sm-2 col-form-label">Name</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="name" v-model="form.name" required />
+				</div>
 			</div>
 
-			<div class="mb-3" v-for="(stat, index) in stats" :key="index">
-				<label :for="stat" class="form-label">{{ stat }}</label>
-				<input
-					type="number"
-					class="form-control"
-					:id="stat"
-					v-model.number="form[stat.toLowerCase()]"
-					min="1"
-					max="10"
-					required
-				/>
+			<div class="mb-3 row" v-for="(stat, index) in stats" :key="index">
+				<label :for="stat" class="col-sm-2 col-form-label">{{ stat }}</label>
+				<div class="col-sm-10">
+					<input
+						type="number"
+						class="form-control"
+						:id="stat"
+						v-model.number="form[stat.toLowerCase()]"
+						min="1"
+						max="10"
+						required
+					/>
+				</div>
 			</div>
 
-			<button type="submit" class="btn btn-primary">
-				{{ character ? "Update Character" : "Create Character" }}
-			</button>
+			<div class="text-center">
+				<button type="submit" @click="submitForm" class="btn btn-primary">
+					{{ character ? "Update Character" : "Create Character" }}
+				</button>
+			</div>
 		</form>
 	</div>
 </template>
@@ -31,6 +37,7 @@
 import { ref, watch, defineProps } from "vue"
 import { Character } from "@/types"
 
+const emit = defineEmits(["onSubmit"])
 const props = defineProps<{
 	character?: Character
 	onSubmit: (character: Character) => void
@@ -59,15 +66,8 @@ watch(
 	}
 )
 
-// Submit the form
 const submitForm = () => {
-	props.onSubmit(form.value)
+	console.log("submittin")
+	emit("onSubmit", form.value) // Emit the created/updated character
 }
 </script>
-
-<style scoped>
-.character-form {
-	max-width: 400px;
-	margin: auto;
-}
-</style>
