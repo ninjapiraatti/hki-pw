@@ -16,6 +16,11 @@
 				</div>
 			</div>
 
+			<div class="mb-3">
+				<label for="image" class="form-label">Default file input example</label>
+				<input class="form-control" type="file" id="image" @change="onImageChange" />
+			</div>
+
 			<div class="mb-3 row" v-for="(stat, index) in stats" :key="index">
 				<label :for="stat" class="col-sm-2 col-form-label">{{ stat }}</label>
 				<div class="col-sm-10">
@@ -52,9 +57,17 @@ const props = defineProps<{
 
 const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
 
+const onImageChange = (event: Event) => {
+	const target = event.target as HTMLInputElement
+	if (target.files && target.files.length > 0) {
+		form.value.image = target.files[0] // Set the selected file to the form
+	}
+}
+
 const form = ref<Character>({
 	name: "",
 	bio: "",
+	image: null,
 	strength: 1,
 	perception: 1,
 	endurance: 1,

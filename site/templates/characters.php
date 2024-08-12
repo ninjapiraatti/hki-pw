@@ -14,9 +14,10 @@ if ($input->is('post')) {
         'received' => $data,
         'message' => 'Data received successfully.',
     ];
-    $building = $pages->add('character', '/hki-pw/characters', [
+    $character = $pages->add('character', '/hki-pw/characters', [
       'title' => $data['name'],
       'body' => $data['bio'],
+      'image' => $data['image'],
       'attribute_strength' => $data['strength'],
       'attribute_perception' => $data['perception'],
       'attribute_endurance' => $data['endurance'],
@@ -27,5 +28,32 @@ if ($input->is('post')) {
     ]);
     echo json_encode($response);
     exit;
+}
+
+if ($input->post->upload) {
+  echo "uploading";
+  $tempDir = wire()->files->tempDir('userUploads')->get();
+
+  $uploaded = (new WireUpload('image')) // same as form field name
+      ->setValidExtensions(['txt', 'png', 'jpg', 'pdf'])
+      ->setMaxFiles(1) // remove this to allow multiple files
+      ->setMaxFileSize(10 * pow(2, 20))// 10MB
+      ->setDestinationPath($tempDir)
+      ->execute();
+
+
+  // $page = $pages->get(1234);
+  foreach ($uploaded as $file) {
+      $filePath = $tempDir . $file;
+      // $page->files->add($filePath);
+
+      echo $filePath . "<br>";
+  }
+  // $page->save('files');
+
+  if (count($uploaded)) {
+      echo sprintf("Uploaded %d files", count($uploaded));
+      $showForm = false;
+  }
 }
 ?>
