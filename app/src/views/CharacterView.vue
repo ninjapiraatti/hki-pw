@@ -27,6 +27,31 @@ const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence"
 const postCharacter = async (character: Character) => {
 	if (loading.value === true) return
 	loading.value = true
+	const formData = new FormData()
+
+	formData.append("name", character.name)
+	formData.append("bio", character.bio)
+	formData.append("image", character.image)
+	formData.append("strength", character.strength)
+	formData.append("perception", character.perception)
+	formData.append("endurance", character.endurance)
+	formData.append("charisma", character.charisma)
+	formData.append("intelligence", character.intelligence)
+	formData.append("agility", character.agility)
+	formData.append("luck", character.luck)
+
+	try {
+		const response = await fetch("http://localhost:8888/hki-pw/characters/", {
+			method: "POST",
+			body: formData,
+		})
+		if (!response.ok) {
+			throw new Error("Network response was not ok")
+		}
+	} catch (error) {
+		console.error("Error:", error)
+	}
+	/*
 	try {
 		console.log("Toon:", character)
 		const response = await fetch("http://localhost:8888/hki-pw/characters/", {
@@ -47,6 +72,7 @@ const postCharacter = async (character: Character) => {
 	} catch (error) {
 		console.error("Error:", error)
 	}
+		*/
 	loading.value = false
 }
 

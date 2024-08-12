@@ -60,7 +60,7 @@ const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence"
 const onImageChange = (event: Event) => {
 	const target = event.target as HTMLInputElement
 	if (target.files && target.files.length > 0) {
-		form.value.image = target.files[0] // Set the selected file to the form
+		form.value.image = target.files[0]
 	}
 }
 
