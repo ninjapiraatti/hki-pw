@@ -21,5 +21,5 @@ router.beforeEach((to, from, next) => {
 	}
 })
 */
-
+import './scss/main.scss';
 app.mount("#app")

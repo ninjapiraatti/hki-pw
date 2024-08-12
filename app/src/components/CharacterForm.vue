@@ -1,27 +1,27 @@
 <template>
-	<div class="character-form">
+	<div class="container">
 		<h3>{{ character ? "Edit Character" : "Create Character" }}</h3>
 		<form @submit.prevent="submitForm">
-			<div class="mb-3 row">
+			<div class="mb-3 w-100 row">
 				<label for="name" class="col-sm-2 col-form-label">Name</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="name" v-model="form.name" required />
 				</div>
 			</div>
 
-			<div class="mb-3 row">
+			<div class="mb-3 w-100 row">
 				<label for="bio" class="col-sm-2 col-form-label">Bio</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="bio" v-model="form.bio" required />
 				</div>
 			</div>
 
-			<div class="mb-3">
+			<div class="mb-3 w-100 row">
 				<label for="image" class="form-label">Default file input example</label>
 				<input class="form-control" type="file" id="image" @change="onImageChange" />
 			</div>
 
-			<div class="mb-3 row" v-for="(stat, index) in stats" :key="index">
+			<div class="mb-3 w-100 row" v-for="(stat, index) in stats" :key="index">
 				<label :for="stat" class="col-sm-2 col-form-label">{{ stat }}</label>
 				<div class="col-sm-10">
 					<input
