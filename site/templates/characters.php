@@ -14,7 +14,17 @@ if ($input->is('post')) {
         'received' => $data,
         'message' => 'Data received successfully.',
     ];
-		$building = $pages->add('character', '/hki-pw/characters', $data['title']);
+    $building = $pages->add('character', '/hki-pw/characters', [
+      'title' => $data['name'],
+      'body' => $data['bio'],
+      'attribute_strength' => $data['strength'],
+      'attribute_perception' => $data['perception'],
+      'attribute_endurance' => $data['endurance'],
+      'attribute_charisma' => $data['charisma'],
+      'attribute_intelligence' => $data['intelligence'],
+      'attribute_agility' => $data['agility'],
+      'attribute_luck' => $data['luck']
+    ]);
     echo json_encode($response);
     exit;
 }

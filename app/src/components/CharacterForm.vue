@@ -9,6 +9,13 @@
 				</div>
 			</div>
 
+			<div class="mb-3 row">
+				<label for="bio" class="col-sm-2 col-form-label">Bio</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="bio" v-model="form.bio" required />
+				</div>
+			</div>
+
 			<div class="mb-3 row" v-for="(stat, index) in stats" :key="index">
 				<label :for="stat" class="col-sm-2 col-form-label">{{ stat }}</label>
 				<div class="col-sm-10">
@@ -47,6 +54,7 @@ const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence"
 
 const form = ref<Character>({
 	name: "",
+	bio: "",
 	strength: 1,
 	perception: 1,
 	endurance: 1,
@@ -68,6 +76,6 @@ watch(
 
 const submitForm = () => {
 	console.log("submittin")
-	emit("onSubmit", form.value) // Emit the created/updated character
+	emit("onSubmit", form.value)
 }
 </script>

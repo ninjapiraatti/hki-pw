@@ -13,17 +13,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue"
+import { onMounted, ref } from "vue"
 import CharacterForm from "@/components/CharacterForm.vue"
 import { Character } from "@/types"
 
 const props = defineProps<{
 	character?: Character
 }>()
+const loading = ref(false)
 
 const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
 
 const postCharacter = async (character: Character) => {
+	if (loading.value === true) return
+	loading.value = true
 	try {
 		console.log("Toon:", character)
 		const response = await fetch("http://localhost:8888/hki-pw/characters/", {
@@ -44,6 +47,7 @@ const postCharacter = async (character: Character) => {
 	} catch (error) {
 		console.error("Error:", error)
 	}
+	loading.value = false
 }
 
 onMounted(() => {
