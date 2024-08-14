@@ -8,8 +8,8 @@
 import { computed } from "vue"
 import { v4 as uuidv4 } from "uuid"
 
-const characterId = uuidv4()
 const characterLink = computed(() => {
+	const characterId = uuidv4()
 	return `/characters/${characterId}`
 })
 </script>

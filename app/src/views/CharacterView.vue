@@ -13,16 +13,38 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { onMounted, ref, computed } from "vue"
 import CharacterForm from "@/components/CharacterForm.vue"
 import { Character } from "@/types"
+import { useRoute } from "vue-router"
 
-const props = defineProps<{
-	character?: Character
-}>()
+const route = useRoute()
+const character = ref<Character | null>(null)
 const loading = ref(false)
 
 const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
+
+const characterId = computed(() => {
+	return route.params.id
+})
+
+const getCharacter = async (characterId: string) => {
+	try {
+		const response = await fetch(`http://localhost:8888/hki-pw/characters/${characterId}/`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"X-Requested-With": "XMLHttpRequest",
+			},
+		})
+		if (!response.ok) {
+			throw new Error("Network response was not ok")
+		}
+		character.value = response
+	} catch (error) {
+		console.error("Error:", error)
+	}
+}
 
 const postCharacter = async (character: Character) => {
 	if (loading.value === true) return
@@ -30,6 +52,7 @@ const postCharacter = async (character: Character) => {
 	const formData = new FormData()
 
 	formData.append("name", character.name)
+	formData.append("id", String(characterId.value))
 	formData.append("bio", character.bio)
 	formData.append("image", character.image)
 	formData.append("strength", character.strength)
@@ -48,35 +71,14 @@ const postCharacter = async (character: Character) => {
 		if (!response.ok) {
 			throw new Error("Network response was not ok")
 		}
+		character.value = response
 	} catch (error) {
 		console.error("Error:", error)
 	}
-	/*
-	try {
-		console.log("Toon:", character)
-		const response = await fetch("http://localhost:8888/hki-pw/characters/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"X-Requested-With": "XMLHttpRequest",
-			},
-			body: JSON.stringify(character),
-		})
-
-		if (!response.ok) {
-			throw new Error("Network response was not ok")
-		}
-
-		const data = await response.json()
-		console.log(data)
-	} catch (error) {
-		console.error("Error:", error)
-	}
-		*/
 	loading.value = false
 }
 
 onMounted(() => {
-	console.log(props)
+	getCharacter(characterId?.value)
 })
 </script>

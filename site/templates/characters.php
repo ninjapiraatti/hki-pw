@@ -23,6 +23,7 @@ if ($input->is('post')) {
   $character = $pages->add('character', '/hki-pw/characters', [
     'title' => $_POST['name'],
     'body' => $_POST['bio'],
+    'name' => $_POST['id'],
     'attribute_strength' => $_POST['strength'],
     'attribute_perception' => $_POST['perception'],
     'attribute_endurance' => $_POST['endurance'],
@@ -43,5 +44,11 @@ if ($input->is('post')) {
 
   echo json_encode($response);
   exit;
+} else {
+  $url = $input->url(); 
+  $url = $sanitizer->entities($url); // entity encode for output
+  echo "You accessed this page at: $url";
 }
+
+
 ?>
