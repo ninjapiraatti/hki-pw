@@ -1,6 +1,5 @@
 <template>
 	<div class="container">
-		<h3>{{ character ? "Edit Character" : "Create Character" }}</h3>
 		<form @submit.prevent="submitForm">
 			<div class="mb-3 w-100 row">
 				<label for="name" class="col-sm-2 col-form-label">Name</label>
@@ -12,12 +11,12 @@
 			<div class="mb-3 w-100 row">
 				<label for="bio" class="col-sm-2 col-form-label">Bio</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="bio" v-model="form.bio" required />
+					<textarea class="form-control" id="bio" name="bio" v-model="form.bio" required />
 				</div>
 			</div>
 
 			<div class="mb-3 w-100 row">
-				<label for="image" class="form-label">Default file input example</label>
+				<label for="image" class="form-label">Picture</label>
 				<input class="form-control" type="file" id="image" @change="onImageChange" />
 			</div>
 

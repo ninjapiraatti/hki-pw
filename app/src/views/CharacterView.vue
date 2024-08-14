@@ -1,8 +1,8 @@
 <template>
 	<div class="character-view">
-		<h2>Character Details</h2>
+		<h2 v-if="character">{{ character.name }}</h2>
+		<h2 v-else>Create Character</h2>
 		<div v-if="character">
-			<h3>{{ character.name }}</h3>
 			<ul>
 				<li v-for="(stat, index) in stats" :key="index">{{ stat }}: {{ character[stat.toLowerCase()] }}</li>
 			</ul>
