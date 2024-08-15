@@ -40,7 +40,9 @@ const getCharacter = async (characterId: string) => {
 		if (!response.ok) {
 			throw new Error("Network response was not ok")
 		}
-		character.value = response
+		const data = await response.json()
+		console.log(data)
+		character.value = data as Character
 	} catch (error) {
 		console.error("Error:", error)
 	}

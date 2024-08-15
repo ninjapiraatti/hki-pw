@@ -7,17 +7,17 @@ foreach($page->images as $image) {
   $imageUrl = $image->url;
 }
 $data = [
-  'title' => $page->title,
-  'body' => $page->body,
-  'images' => $imageUrl,
-  'attribute_strength' => $page->attribute_strength,
-  'attribute_perception' => $page->attribute_perception,
-  'attribute_endurance' => $page->attribute_endurance,
-  'attribute_charisma' => $page->attribute_charisma,
-  'attribute_intelligence' => $page->attribute_intelligence,
-  'attribute_agility' => $page->attribute_agility,
-  'attribute_luck' => $page->attribute_luck,
+  'name' => $page->title,
+  'bio' => $page->body,
+  'image' => $imageUrl,
+  'strength' => $page->attribute_strength,
+  'perception' => $page->attribute_perception,
+  'endurance' => $page->attribute_endurance,
+  'charisma' => $page->attribute_charisma,
+  'intelligence' => $page->attribute_intelligence,
+  'agility' => $page->attribute_agility,
+  'luck' => $page->attribute_luck,
 ];
-echo wireEncodeJSON($data);
+return wireEncodeJSON($data);
 
 ?>
