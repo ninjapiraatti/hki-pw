@@ -2,12 +2,6 @@
 	<div class="character-view">
 		<h2 v-if="character">{{ character.name }}</h2>
 		<h2 v-else>Create Character</h2>
-		<div v-if="character">
-			<ul>
-				<li v-for="(stat, index) in stats" :key="index">{{ stat }}: {{ character[stat.toLowerCase()] }}</li>
-			</ul>
-			<button class="btn btn-secondary">Edit Character</button>
-		</div>
 		<CharacterForm :character="character" @onSubmit="postCharacter" />
 	</div>
 </template>
