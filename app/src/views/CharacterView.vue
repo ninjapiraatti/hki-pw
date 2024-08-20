@@ -16,8 +16,6 @@ const route = useRoute()
 const character = ref<Character | null>(null)
 const loading = ref(false)
 
-const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
-
 const characterId = computed(() => {
 	return route.params.id
 })
@@ -35,7 +33,6 @@ const getCharacter = async (characterId: string) => {
 			throw new Error("Network response was not ok")
 		}
 		const data = await response.json()
-		console.log(data)
 		character.value = data as Character
 	} catch (error) {
 		console.error("Error:", error)

@@ -51,7 +51,6 @@ import { Character } from "@/types"
 const emit = defineEmits(["onSubmit"])
 const props = defineProps<{
 	character?: Character
-	onSubmit: (character: Character) => void
 }>()
 
 const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
