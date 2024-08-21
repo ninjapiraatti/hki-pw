@@ -15,6 +15,10 @@
 				</div>
 			</div>
 
+			<div v-if="character.image">
+				<img :src="imageUrl" class="mb-3" />
+			</div>
+
 			<div class="mb-3 w-100 row">
 				<label for="image" class="form-label">Picture</label>
 				<input class="form-control" type="file" id="image" @change="onImageChange" />
@@ -45,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps } from "vue"
+import { ref, watch, defineProps, computed } from "vue"
 import { Character } from "@/types"
 
 const emit = defineEmits(["onSubmit"])
@@ -61,6 +65,8 @@ const onImageChange = (event: Event) => {
 		form.value.image = target.files[0]
 	}
 }
+
+const imageUrl = computed(() => `http://localhost:8888${props.character.image}`)
 
 const form = ref<Character>({
 	name: "",
