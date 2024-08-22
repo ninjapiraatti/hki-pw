@@ -29,13 +29,18 @@ const getCharacter = async (characterId: string) => {
 				"X-Requested-With": "XMLHttpRequest",
 			},
 		})
-		if (!response.ok) {
-			throw new Error("Network response was not ok")
+		if (response.ok) {
+			const data = await response.json()
+			character.value = data as Character
+		} else if (response.status === 404) {
+			console.warn("Character not found, assigning null.")
+			character.value = null
+		} else {
+			throw new Error(`Error: ${response.status} ${response.statusText}`)
 		}
-		const data = await response.json()
-		character.value = data as Character
 	} catch (error) {
 		console.error("Error:", error)
+		character.value = null
 	}
 }
 
