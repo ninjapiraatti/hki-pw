@@ -15,8 +15,8 @@
 				</div>
 			</div>
 
-			<div v-if="character.image">
-				<img :src="imageUrl" class="mb-3" />
+			<div v-if="imageUrl.length">
+				<img :src="imageUrl" class="mb-3 w-100" />
 			</div>
 
 			<div class="mb-3 w-100 row">
@@ -66,7 +66,10 @@ const onImageChange = (event: Event) => {
 	}
 }
 
-const imageUrl = computed(() => `http://localhost:8888${props.character.image}`)
+const imageUrl = computed(() => {
+	const baseUrl = "http://localhost:8888"
+	return props.character?.image ? `${baseUrl}${props.character.image}` : ""
+})
 
 const form = ref<Character>({
 	name: "",
