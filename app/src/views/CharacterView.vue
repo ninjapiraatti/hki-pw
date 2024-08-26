@@ -62,7 +62,13 @@ const postCharacter = async (character: Character) => {
 	formData.append("luck", character.luck)
 
 	try {
-		const response = await fetch("http://localhost:8888/hki-pw/characters/", {
+		let url = ""
+		if (character) {
+			url = `http://localhost:8888/hki-pw/characters/${characterId.value}/`
+		} else {
+			url = `http://localhost:8888/hki-pw/characters/`
+		}
+		const response = await fetch(url, {
 			method: "POST",
 			body: formData,
 		})
