@@ -32,13 +32,15 @@ if ($input->is('post')) {
   $page->attribute_agility = $_POST['agility'];
   $page->attribute_luck = $_POST['luck'];
   $page->save();
-  /*
   if (isset($uploaded)) {
+    foreach ($page->images as $image) {
+      $page->images->remove($image); // Remove the current image
+    }
+    $page->save();
     $filePath = $tempDir . $uploaded[0];
-    $character->images->add($filePath);
-    $character->save();
+    $page->images->add($filePath);
+    $page->save();
   }
-    */
   $response = [
     'received' => $_POST,
     'message' => 'Data received successfully.',
