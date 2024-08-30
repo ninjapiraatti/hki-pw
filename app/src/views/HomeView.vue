@@ -6,11 +6,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed, onMounted } from "vue"
 import { v4 as uuidv4 } from "uuid"
 
 const characterLink = computed(() => {
 	const characterId = uuidv4()
 	return `/characters/${characterId}`
+})
+
+onMounted(() => {
+	console.log(typeof bootstrap !== "undefined")
 })
 </script>

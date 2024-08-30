@@ -22,4 +22,5 @@ router.beforeEach((to, from, next) => {
 })
 */
 import './scss/main.scss';
+import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 app.mount("#app")
