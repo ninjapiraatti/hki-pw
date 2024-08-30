@@ -1,5 +1,6 @@
 <template>
 	<router-link :to="characterLink" custom v-slot="{ navigate }">
+		<img src="../assets/logo.png" alt="HKI2050 logo" />
 		<button @click="navigate" @keypress.enter="navigate" role="link">Create Character</button>
 	</router-link>
 </template>
