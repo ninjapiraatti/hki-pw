@@ -2,3 +2,7 @@ body {
   background: url("../src/assets/map.jpg") no-repeat top center fixed;
   background-size: cover;
 }
+
+.icon-small {
+  width: 2rem;
+}
