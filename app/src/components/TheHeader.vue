@@ -45,38 +45,6 @@
 			</div>
 		</div>
 	</nav>
-	<!--<header class="bg-gray-800 text-white">
-		<nav class="mx-auto px-4 py-2 flex items-center justify-between">
-			<div>
-				<router-link to="/" class="block w-8">
-					<UserIcon class="h-6 w-6" />
-				</router-link>
-			</div>
-			<div class="hidden md:flex items-center space-x-4 z-10">
-				<div class="relative">
-					<button disabled @click.stop="toggleDropdown" class="focus:outline-none">
-						<UserIcon class="h-6 w-6" />
-					</button>
-					<div v-if="dropdownOpen" class="absolute right-0 mt-2 w-48 bg-white text-black shadow-md rounded-md py-2">
-						<router-link to="/login" class="block px-4 py-2 hover:bg-gray-200">Log in</router-link>
-					</div>
-				</div>
-			</div>
-			<button disabled @click.stop="toggleMenu" class="md:hidden focus:outline-none">
-				<template v-if="!menuOpen">
-					<Bars3Icon class="h-6 w-6" />
-				</template>
-				<template v-else>
-					<XMarkIcon class="h-6 w-6" />
-				</template>
-			</button>
-		</nav>
-		<div class="container mx-auto px-4" v-if="menuOpen">
-			<div class="md:hidden flex flex-col space-y-2 mt-4">
-				<router-link to="/about" class="text-white hover:text-gray-300">About</router-link>
-			</div>
-		</div>
-	</header>-->
 </template>
 
 <script setup lang="ts">
