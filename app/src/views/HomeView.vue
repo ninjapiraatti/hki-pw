@@ -4,8 +4,10 @@
 			<img src="../assets/logo.png" alt="HKI2050 logo" />
 		</div>
 		<router-link :to="characterLink" custom v-slot="{ navigate }">
-			<button type="button" class="btn btn-primary" @click="navigate" @keypress.enter="navigate" role="link">
-				Create Character
+			<button type="button" class="btn--cyberpunk btn" @click="navigate" @keypress.enter="navigate" role="link">
+				<span class="btn__content">Create Character</span>
+				<span class="btn__glitch"></span>
+				<span class="btn__label">r25</span>
 			</button>
 		</router-link>
 	</div>
