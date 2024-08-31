@@ -58,28 +58,31 @@
 }
 
 .btn--cyberpunk {
-  width: 230px;
-  height: 60px; 
+  //width: 230px;
+  //height: 60px; 
   border: 0;
   outline: none;
   background-color: #000;
-  cursor: pointer;
+  //cursor: pointer;
   position: relative;
-  font-size: .85rem;
-  text-transform: uppercase;
+  //font-size: .85rem;
+  //text-transform: uppercase;
   color: #000;
   clip-path: polygon(92% 0, 100% 25%, 100% 100%, 8% 100%, 0% 75%, 0 0);
+  padding: 2px;
+  border-radius: 0;
 }
 
 .btn__content {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  right: 2px;
-  bottom: 2px;
+  padding: 10px;
+  //position: absolute;
+  //top: 2px;
+  //left: 2px;
+  //right: 2px;
+  //bottom: 2px;
   background-color: var(--magenta-color);
   clip-path: polygon(92% 0, 100% 25%, 100% 100%, 8% 100%, 0% 75%, 0 0);
 }
@@ -111,7 +114,7 @@
 .btn:focus .btn__glitch,
 .btn:focus .btn__content::after {
   display: block;
-  animation: glitch-animation 2s linear 0s infinite;
+  animation: glitch-animation 3s linear 0s infinite alternate;
 }
 
 @keyframes glitch-animation {
@@ -121,102 +124,102 @@
     clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);
   }
 
-  2% {
+  1% {
     clip-path: polygon(0 78%, 100% 78%, 100% 100%, 0 100%);
     transform: translate(-5px);
   }
 
-  6% {
+  3% {
     clip-path: polygon(0 78%, 100% 78%, 100% 100%, 0 100%);
     transform: translate(5px);
   }
 
-  8% {
+  4% {
     clip-path: polygon(0 78%, 100% 78%, 100% 100%, 0 100%);
     transform: translate(-5px);
   }
 
-  9% {
+  4.5% {
     clip-path: polygon(0 78%, 100% 78%, 100% 100%, 0 100%);
     transform: translate(0);
   }
 
-  10% {
+  5% {
     clip-path: polygon(0 54%, 100% 54%, 100% 44%, 0 44%);
     transform: translate3d(5px, 0, 0);
   }
 
-  13% {
+  6.5% {
     clip-path: polygon(0 54%, 100% 54%, 100% 44%, 0 44%);
     transform: translateZ(0);
   }
 
-  13.1% {
+  6.7% {
     clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+    transform: translate3d(5px, 0, 0);
+  }
+
+  7.5% {
+    clip-path: polygon(0 60%, 100% 60%, 100% 40%, 0 40%);
+    transform: translate3d(5px, 0, 0);
+  }
+
+  10% {
+    clip-path: polygon(0 60%, 100% 60%, 100% 40%, 0 40%);
+    transform: translate3d(-5px, 0, 0);
+  }
+
+  10.1% {
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+    transform: translate3d(5px, 0, 0);
+  }
+
+  12.5% {
+    clip-path: polygon(0 85%, 100% 85%, 100% 40%, 0 40%);
     transform: translate3d(5px, 0, 0);
   }
 
   15% {
-    clip-path: polygon(0 60%, 100% 60%, 100% 40%, 0 40%);
-    transform: translate3d(5px, 0, 0);
-  }
-
-  20% {
-    clip-path: polygon(0 60%, 100% 60%, 100% 40%, 0 40%);
-    transform: translate3d(-5px, 0, 0);
-  }
-
-  20.1% {
-    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
-    transform: translate3d(5px, 0, 0);
-  }
-
-  25% {
-    clip-path: polygon(0 85%, 100% 85%, 100% 40%, 0 40%);
-    transform: translate3d(5px, 0, 0);
-  }
-
-  30% {
     clip-path: polygon(0 85%, 100% 85%, 100% 40%, 0 40%);
     transform: translate3d(-5px, 0, 0);
   }
 
-  30.1% {
+  15.1% {
     clip-path: polygon(0 0, 0 0, 0 0, 0 0);
   }
 
-  35% {
+  18% {
     clip-path: polygon(0 63%, 100% 63%, 100% 80%, 0 80%);
     transform: translate(-5px);
   }
 
-  40% {
+  20% {
     clip-path: polygon(0 63%, 100% 63%, 100% 80%, 0 80%);
     transform: translate(5px);
   }
 
-  45% {
+  22% {
     clip-path: polygon(0 63%, 100% 63%, 100% 80%, 0 80%);
     transform: translate(-5px);
   }
 
-  50% {
+  25% {
     clip-path: polygon(0 63%, 100% 63%, 100% 80%, 0 80%);
     transform: translate(0);
   }
 
-  55% {
+  28% {
     clip-path: polygon(0 10%, 100% 10%, 100% 0, 0 0);
     transform: translate3d(5px, 0, 0);
   }
 
-  60% {
+  30% {
     clip-path: polygon(0 10%, 100% 10%, 100% 0, 0 0);
     transform: translateZ(0);
     opacity: 1;
   }
 
-  60.1% {
+  30.1% {
     clip-path: polygon(0 0, 0 0, 0 0, 0 0);
     opacity: 1;
   }
