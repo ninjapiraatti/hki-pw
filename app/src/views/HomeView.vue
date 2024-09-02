@@ -7,7 +7,9 @@
 			<button type="button" class="btn--cyberpunk btn" @click="navigate" @keypress.enter="navigate" role="link">
 				<span class="btn__content">Create Character</span>
 				<span class="btn__glitch"></span>
-				<span class="btn__label">r25</span>
+				<span class="btn__label">
+					<UserIcon class="icon-small" />
+				</span>
 			</button>
 		</router-link>
 	</div>
@@ -16,6 +18,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import { v4 as uuidv4 } from "uuid"
+import { UserIcon } from "@heroicons/vue/24/outline"
 
 const characterLink = computed(() => {
 	const characterId = uuidv4()
