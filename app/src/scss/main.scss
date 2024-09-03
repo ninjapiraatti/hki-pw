@@ -102,6 +102,9 @@ body {
   background-color: var(--magenta-color);
   z-index: 3;
   border-left: 1px solid var(--blue-color);
+  &__icon {
+    width: 10px;
+  }
 }
 
 .btn__glitch {

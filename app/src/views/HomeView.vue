@@ -8,7 +8,7 @@
 				<span class="btn__content">Create Character</span>
 				<span class="btn__glitch"></span>
 				<span class="btn__label">
-					<UserIcon class="icon-small" />
+					<PlusCircleIcon class="btn__label__icon" />
 				</span>
 			</button>
 		</router-link>
@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import { v4 as uuidv4 } from "uuid"
-import { UserIcon } from "@heroicons/vue/24/outline"
+import { PlusCircleIcon } from "@heroicons/vue/24/outline"
 
 const characterLink = computed(() => {
 	const characterId = uuidv4()
