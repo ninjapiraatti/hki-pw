@@ -96,14 +96,14 @@ body {
 .btn__label {
   font-size: .40rem;
   position: absolute;
-  bottom: -1px;
-  right: 8%;
-  padding: 0 5px;
+  bottom: -3px;
+  right: 12px;
+  padding: 4px 2px;
   background-color: var(--magenta-color);
   z-index: 3;
   border-left: 1px solid var(--blue-color);
   &__icon {
-    width: 10px;
+    width: 14px;
   }
 }
 
