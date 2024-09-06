@@ -1,4 +1,7 @@
 <?php namespace ProcessWire;
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Headers: Content-Type, X-Requested-With");
 
 // Template file for “home” template used by the homepage
 // ------------------------------------------------------
@@ -8,8 +11,9 @@
 // See the Markup Regions documentation:
 // https://processwire.com/docs/front-end/output/markup-regions/
 
-?>
+$data = [
+  'body' => $page->wysiwyg
+];
+return wireEncodeJSON($data);
 
-<div id="content">
-	Homepage content 
-</div>	
+?>

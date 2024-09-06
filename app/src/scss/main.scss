@@ -54,13 +54,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@300..700&display=swap');
 
 :root {
-  --magenta-color: #ff147f;
+  --magenta-color: #ff147f; // define in BS instead
   --cyan-color: #00f0ff;
   --white-color: #fafafa;
 }
 
 body {
   font-family: 'Overpass Mono', monospace;
+}
+
+.logo {
+  width: 240px;
 }
 
 .btn--cyberpunk {
@@ -94,7 +98,7 @@ body {
   z-index: 3;
   border-left: 1px solid var(--blue-color);
   &__icon {
-    width: 14px;
+    width: 12px;
   }
 }
 

@@ -1,7 +1,10 @@
 <template>
 	<div class="container-fluid text-center">
 		<div class="w-100">
-			<img src="../assets/logo.png" alt="HKI2050 logo" />
+			<img class="logo" src="../assets/logo.png" alt="HKI2050 logo" />
+		</div>
+		<div>
+			{{ mainContent }}
 		</div>
 		<router-link :to="characterLink" custom v-slot="{ navigate }">
 			<button type="button" class="btn--cyberpunk btn" @click="navigate" @keypress.enter="navigate" role="link">
@@ -16,12 +19,40 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed, ref, onMounted } from "vue"
 import { v4 as uuidv4 } from "uuid"
 import { PlusCircleIcon } from "@heroicons/vue/24/outline"
+
+const mainContent = ref("")
 
 const characterLink = computed(() => {
 	const characterId = uuidv4()
 	return `/characters/${characterId}`
+})
+
+const getIntro = async () => {
+	try {
+		const response = await fetch(`http://localhost:8888/hki-pw/`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"X-Requested-With": "XMLHttpRequest",
+			},
+		})
+		if (response.ok) {
+			const data = await response.json()
+			mainContent.value = data
+		} else if (response.status === 404) {
+			console.warn("No content")
+		} else {
+			throw new Error(`Error: ${response.status} ${response.statusText}`)
+		}
+	} catch (error) {
+		console.error("Error:", error)
+	}
+}
+
+onMounted(() => {
+	getIntro()
 })
 </script>
