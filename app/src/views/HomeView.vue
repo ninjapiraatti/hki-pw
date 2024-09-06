@@ -3,7 +3,7 @@
 		<div class="w-100">
 			<img class="logo" src="../assets/logo.png" alt="HKI2050 logo" />
 		</div>
-		<div v-html="mainContent" class="angled-corner"></div>
+		<div v-html="mainContent" class="angled-corner text-start p-4 mb-4"></div>
 		<router-link :to="characterLink" custom v-slot="{ navigate }">
 			<button type="button" class="btn--cyberpunk btn" @click="navigate" @keypress.enter="navigate" role="link">
 				<span class="btn__content">Create Character</span>
