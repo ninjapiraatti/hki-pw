@@ -1,6 +1,6 @@
 <template>
 	<div class="container-fluid text-center">
-		<div class="w-100">
+		<div class="w-100 my-4">
 			<img class="logo" src="../assets/logo.png" alt="HKI2050 logo" />
 		</div>
 		<div v-html="mainContent" class="angled-corner text-start p-4 mb-4"></div>

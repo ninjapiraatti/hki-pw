@@ -5,6 +5,11 @@
 // scss-docs-start import-stack
 // Configuration
 @import "../node_modules/bootstrap/scss/functions";
+
+// variable overrides go here
+
+//$black: #ff0000;
+
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/variables-dark";
 @import "../node_modules/bootstrap/scss/maps";

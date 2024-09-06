@@ -1,5 +1,5 @@
 <template>
-	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	<nav class="navbar navbar-expand-lg bg-black opacity-75">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
 				<UserIcon class="icon-small" />
