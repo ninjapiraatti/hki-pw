@@ -3,9 +3,7 @@
 		<div class="w-100">
 			<img class="logo" src="../assets/logo.png" alt="HKI2050 logo" />
 		</div>
-		<div>
-			{{ mainContent }}
-		</div>
+		<div v-html="mainContent" class="angled-corner"></div>
 		<router-link :to="characterLink" custom v-slot="{ navigate }">
 			<button type="button" class="btn--cyberpunk btn" @click="navigate" @keypress.enter="navigate" role="link">
 				<span class="btn__content">Create Character</span>
@@ -41,7 +39,7 @@ const getIntro = async () => {
 		})
 		if (response.ok) {
 			const data = await response.json()
-			mainContent.value = data
+			mainContent.value = data.body
 		} else if (response.status === 404) {
 			console.warn("No content")
 		} else {

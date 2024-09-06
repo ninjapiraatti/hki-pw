@@ -63,6 +63,11 @@ body {
   font-family: 'Overpass Mono', monospace;
 }
 
+.angled-corner {
+  clip-path: polygon(0% 0%, calc(100% - 20px) 0%, 100% 20px, 100% 100%, 0% 100%);
+  background-color: #000;
+}
+
 .logo {
   width: 240px;
 }
