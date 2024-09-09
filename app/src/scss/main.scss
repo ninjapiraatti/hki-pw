@@ -68,6 +68,10 @@ body {
   font-family: 'Overpass Mono', monospace;
 }
 
+.cyberpunk {
+  animation: glitch-animation 3s linear 0s infinite alternate;
+}
+
 .angled-corner {
   clip-path: polygon(0% 0%, calc(100% - 20px) 0%, 100% 20px, 100% 100%, 0% 100%);
   background: rgba(0,0,0,0.80);
