@@ -8,49 +8,28 @@ import { onMounted } from "vue"
 import { RouterView } from "vue-router"
 import TheHeader from "./components/TheHeader.vue"
 
-function applyRandomClassToRandomElement(className: string, tagName: string): void {
-	// Select all elements of the specified tag name
-	const elements = document.getElementsByTagName(tagName)
+function applyRandomClassToRandomElement(className: string, tagNames: string[]): void {
+	const elements = Array.from(tagNames.flatMap((tag) => document.getElementsByTagName(tag)))
+	if (elements.length === 0) return
+	elements.forEach((element) => element.classList.remove(className))
 
-	// Check if there are any elements found
-	if (elements.length === 0) {
-		console.warn(`No elements found with tag name: ${tagName}`)
-		return
-	}
-
-	// Remove the specified class from all elements
-	for (let i = 0; i < elements.length; i++) {
-		elements[i].classList.remove(className)
-	}
-
-	// Generate a random index
-	const randomIndex = Math.floor(Math.random() * elements.length)
-
-	// Select the random element
-	const randomElement = elements[randomIndex]
-
-	// Apply the specified class to the random element
+	const randomElement = elements[Math.floor(Math.random() * elements.length)]
 	randomElement.classList.add(className)
-
 	console.log(`Applied class "${className}" to element:`, randomElement)
 }
 
-function startRandomClassTimer(className: string, tagName: string, interval: number, probability: number): void {
+function startRandomClassTimer(className: string, tagNames: string[], interval: number, probability: number): void {
 	setInterval(() => {
-		// Generate a random number between 0 and 1
-		const randomChance = Math.random()
-
-		// Check if the random chance is less than the specified probability
-		if (randomChance < probability) {
-			applyRandomClassToRandomElement(className, tagName)
+		if (Math.random() < probability) {
+			applyRandomClassToRandomElement(className, tagNames)
 		} else {
-			console.log(`No class applied this time. Chance: ${randomChance}`)
+			console.log(`No class applied this time. Chance: ${Math.random()}`)
 		}
 	}, interval)
 }
 
 onMounted(() => {
-	startRandomClassTimer("cyberpunk", "button", 10000, 0.5)
+	startRandomClassTimer("cyberpunk", ["button", "h1"], 1000, 0.5)
 })
 </script>
 
