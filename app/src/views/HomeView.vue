@@ -5,9 +5,9 @@
 		</div>
 		<div v-html="mainContent" class="angled-corner text-start p-4 mb-4"></div>
 		<router-link :to="characterLink" custom v-slot="{ navigate }">
-			<button type="button" class="btn--cyberpunk btn" @click="navigate" @keypress.enter="navigate" role="link">
+			<button type="button" class="btn--glitch btn" @click="navigate" @keypress.enter="navigate" role="link">
 				<span class="btn__content">Create Character</span>
-				<span class="btn__glitch"></span>
+				<span class="btn__effect"></span>
 				<span class="btn__label">
 					<PlusCircleIcon class="btn__label__icon" />
 				</span>

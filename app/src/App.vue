@@ -14,6 +14,7 @@ function applyRandomClassToRandomElement(className: string, tagNames: string[]):
 	elements.forEach((element) => element.classList.remove(className))
 
 	const randomElement = elements[Math.floor(Math.random() * elements.length)]
+	console.log(`Random element:`, randomElement)
 	randomElement.classList.add(className)
 	console.log(`Applied class "${className}" to element:`, randomElement)
 }
@@ -29,7 +30,7 @@ function startRandomClassTimer(className: string, tagNames: string[], interval: 
 }
 
 onMounted(() => {
-	startRandomClassTimer("cyberpunk", ["button", "h1"], 1000, 0.5)
+	startRandomClassTimer("glitch", ["button", "h1"], 10000, 0.5)
 })
 </script>
 
