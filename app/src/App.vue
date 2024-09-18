@@ -9,14 +9,24 @@ import { RouterView } from "vue-router"
 import TheHeader from "./components/TheHeader.vue"
 
 function applyRandomClassToRandomElement(className: string, tagNames: string[]): void {
-	const elements = Array.from(tagNames.flatMap((tag) => document.getElementsByTagName(tag)))
+	const elements = Array.from(tagNames.flatMap((tag) => Array.from(document.getElementsByTagName(tag))))
 	if (elements.length === 0) return
-	elements.forEach((element) => element.classList.remove(className))
+
+	elements.forEach((element) => {
+		if (element) {
+			element.classList.remove(className)
+		}
+	})
 
 	const randomElement = elements[Math.floor(Math.random() * elements.length)]
 	console.log(`Random element:`, randomElement)
-	randomElement.classList.add(className)
-	console.log(`Applied class "${className}" to element:`, randomElement)
+
+	if (randomElement) {
+		randomElement.classList.add(className)
+		console.log(`Applied class "${className}" to element:`, randomElement)
+	} else {
+		console.error("No random element found to apply the class.")
+	}
 }
 
 function startRandomClassTimer(className: string, tagNames: string[], interval: number, probability: number): void {
