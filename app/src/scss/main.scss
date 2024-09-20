@@ -69,7 +69,7 @@ body {
 }
 
 .glitch {
-  animation: glitch-animation 3s linear 0s infinite alternate;
+  animation: glitch-animation 1s linear 0s;
 }
 
 .angled-corner {
@@ -231,6 +231,18 @@ body {
     transform: translate3d(5px, 0, 0);
   }
 
+  29% {
+    opacity: 1;
+    transform: translateZ(0);
+    clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+    clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);
+  }
+  /*
   30% {
     clip-path: polygon(0 10%, 100% 10%, 100% 0, 0 0);
     transform: translateZ(0);
@@ -241,11 +253,14 @@ body {
     clip-path: polygon(0 0, 0 0, 0 0, 0 0);
     opacity: 1;
   }
+    */
 
+  /*
   to {
     clip-path: polygon(0 0, 0 0, 0 0, 0 0);
     opacity: 1;
   }
+    */
 }
 
 @keyframes glitch-animation-button {
