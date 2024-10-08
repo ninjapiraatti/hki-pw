@@ -1,57 +1,47 @@
 <template>
-	<h1>Testing PW POST</h1>
-
-	<div class="card">
-		<button type="button" @click="getProcessWireData">Post an article</button>
-		<p>{{ responseMessage }}</p>
+	<div class="container-fluid">
+		<div class="angled-corner p-4 mb-4 mt-4">
+			<h1>Articles</h1>
+			<div class="card">
+				<button type="button" @click="getProcessWireData">Post an article</button>
+				<p>{{ responseMessage }}</p>
+			</div>
+		</div>
 	</div>
-
-	<p>
-		Check out
-		<a href="https://vuejs.org/guide/quick-start.html#local" target="_blank">create-vue</a>, the official Vue + Vite
-		starter
-	</p>
-	<p>
-		Learn more about IDE Support for Vue in the
-		<a href="https://vuejs.org/guide/scaling-up/tooling.html#ide-support" target="_blank">Vue Docs Scaling up Guide</a>.
-	</p>
-	<p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-
+import { Article } from "@/types"
+import { ref, onMounted } from "vue"
 const responseMessage = ref("")
+const articles = ref([])
 
 const getProcessWireData = async () => {
-	const payload = {
-		title: "Test Article",
-	}
-
 	try {
 		const response = await fetch("http://localhost:8888/hki-pw/articles/", {
-			method: "POST",
+			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
 				"X-Requested-With": "XMLHttpRequest",
 			},
-			body: JSON.stringify(payload),
 		})
 
-		if (!response.ok) {
-			throw new Error("Network response was not ok")
+		if (response.ok) {
+			const data = await response.json()
+			console.log(data)
+			articles.value = data as Article[]
+		} else if (response.status === 404) {
+			console.warn("Character not found, assigning null.")
+			articles.value = null
+		} else {
+			throw new Error(`Error: ${response.status} ${response.statusText}`)
 		}
-
-		const data = await response.json()
-		responseMessage.value = data // Assuming your server returns a message
 	} catch (error) {
 		console.error("Error:", error)
 	}
 }
-</script>
 
-<style scoped>
-.read-the-docs {
-	color: #888;
-}
-</style>
+onMounted(() => {
+	getProcessWireData()
+})
+</script>

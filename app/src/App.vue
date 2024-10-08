@@ -19,13 +19,13 @@ function applyRandomClassToRandomElement(className: string, tagNames: string[]):
 	})
 
 	const randomElement = elements[Math.floor(Math.random() * elements.length)]
-	console.log(`Random element:`, randomElement)
+	//console.log(`Random element:`, randomElement)
 
 	if (randomElement) {
 		randomElement.classList.add(className)
-		console.log(`Applied class "${className}" to element:`, randomElement)
+		//console.log(`Applied class "${className}" to element:`, randomElement)
 	} else {
-		console.error("No random element found to apply the class.")
+		//console.error("No random element found to apply the class.")
 	}
 }
 
@@ -34,7 +34,7 @@ function startRandomClassTimer(className: string, tagNames: string[], interval: 
 		if (Math.random() < probability) {
 			applyRandomClassToRandomElement(className, tagNames)
 		} else {
-			console.log(`No class applied this time. Chance: ${Math.random()}`)
+			//console.log(`No class applied this time. Chance: ${Math.random()}`)
 		}
 	}, interval)
 }
