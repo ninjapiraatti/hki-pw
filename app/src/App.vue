@@ -40,7 +40,7 @@ function startRandomClassTimer(className: string, tagNames: string[], interval: 
 }
 
 onMounted(() => {
-	startRandomClassTimer("glitch", ["button", "h1"], 1000, 0.5)
+	startRandomClassTimer("glitch", ["img", "svg", "a", "h1"], 1000, 0.5)
 })
 </script>
 
