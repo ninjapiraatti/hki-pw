@@ -4,8 +4,8 @@
 			<img class="logo" src="../assets/logo.png" alt="HKI2050 logo" />
 		</div>
 		<div v-html="mainContent" class="angled-corner text-start p-4 mb-4"></div>
-		<router-link :to="characterLink" custom v-slot="{ navigate }">
-			<button type="button" class="btn--glitch btn" @click="navigate" @keypress.enter="navigate" role="link">
+		<router-link :to="characterLink">
+			<button type="button" class="btn--glitch btn" role="link">
 				<span class="btn__content">Create Character</span>
 				<span class="btn__effect"></span>
 				<span class="btn__label">

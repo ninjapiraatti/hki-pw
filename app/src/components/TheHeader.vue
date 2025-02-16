@@ -46,18 +46,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue"
-import { Bars3Icon, XMarkIcon, UserIcon } from "@heroicons/vue/24/outline"
+import { UserIcon } from "@heroicons/vue/24/outline"
 
 const menuOpen = ref(false)
 const dropdownOpen = ref(false)
-
-const toggleDropdown = () => {
-	dropdownOpen.value = !dropdownOpen.value
-}
-
-const toggleMenu = () => {
-	menuOpen.value = !menuOpen.value
-}
 
 const closeMenus = () => {
 	dropdownOpen.value = false

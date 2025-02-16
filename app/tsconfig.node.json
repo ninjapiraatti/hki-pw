@@ -7,7 +7,8 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "noEmit": true
+    "outDir": "./dist", // Where to output the compiled files
+    "sourceMap": true, // Enable source maps
   },
   "include": ["vite.config.ts"]
 }

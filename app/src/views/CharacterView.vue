@@ -44,26 +44,28 @@ const getCharacter = async (characterId: string) => {
 	}
 }
 
-const postCharacter = async (character: Character) => {
+const postCharacter = async (newCharacter: Character) => {
 	if (loading.value === true) return
 	loading.value = true
 	const formData = new FormData()
 
-	formData.append("name", character.name)
+	formData.append("name", newCharacter.name)
 	formData.append("id", String(characterId.value))
-	formData.append("bio", character.bio)
-	formData.append("image", character.image)
-	formData.append("strength", character.strength)
-	formData.append("perception", character.perception)
-	formData.append("endurance", character.endurance)
-	formData.append("charisma", character.charisma)
-	formData.append("intelligence", character.intelligence)
-	formData.append("agility", character.agility)
-	formData.append("luck", character.luck)
+	formData.append("bio", newCharacter.bio)
+	if (newCharacter.image) {
+		formData.append("image", newCharacter.image)
+	}
+	formData.append("strength", String(newCharacter.strength))
+	formData.append("perception", String(newCharacter.perception))
+	formData.append("endurance", String(newCharacter.endurance))
+	formData.append("charisma", String(newCharacter.charisma))
+	formData.append("intelligence", String(newCharacter.intelligence))
+	formData.append("agility", String(newCharacter.agility))
+	formData.append("luck", String(newCharacter.luck))
 
 	try {
 		let url = ""
-		if (character) {
+		if (character.value) {
 			url = `http://localhost:8888/hki-pw/characters/${characterId.value}/`
 		} else {
 			url = `http://localhost:8888/hki-pw/characters/`
@@ -75,7 +77,8 @@ const postCharacter = async (character: Character) => {
 		if (!response.ok) {
 			throw new Error("Network response was not ok")
 		}
-		character.value = response
+		const data = await response.json()
+		character.value = data as Character
 	} catch (error) {
 		console.error("Error:", error)
 	}
@@ -83,6 +86,10 @@ const postCharacter = async (character: Character) => {
 }
 
 onMounted(() => {
-	getCharacter(characterId?.value)
+	/*
+	if (typeof characterId.value === 'string') {
+		getCharacter(characterId.value)
+	}
+		*/
 })
 </script>

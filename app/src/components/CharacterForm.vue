@@ -31,7 +31,7 @@
 						type="number"
 						class="form-control"
 						:id="stat"
-						v-model.number="form[stat.toLowerCase()]"
+						v-model.number="form[stat]"
 						min="1"
 						max="10"
 						required
@@ -54,10 +54,11 @@ import { Character } from "@/types"
 
 const emit = defineEmits(["onSubmit"])
 const props = defineProps<{
-	character?: Character
+	character?: Character | null
 }>()
 
-const stats = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"]
+const stats = ["strength", "perception", "endurance", "charisma", "intelligence", "agility", "luck"] as const
+type Stat = typeof stats[number]
 
 const onImageChange = (event: Event) => {
 	const target = event.target as HTMLInputElement

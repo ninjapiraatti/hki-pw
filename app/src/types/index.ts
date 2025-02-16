@@ -1,7 +1,7 @@
 export interface Character {
   name: string
   bio: string
-  image: File
+  image: File | null
   strength: number
   perception: number
   endurance: number

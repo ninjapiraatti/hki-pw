@@ -8,7 +8,7 @@
 				</li>
 			</ul>
 			<div class="card">
-				<button type="button" @click="getProcessWireData">Post an article</button>
+				<button type="button" @click="getProcessWireData">Post an articleee</button>
 				<p>{{ responseMessage }}</p>
 			</div>
 		</div>
