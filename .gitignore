@@ -1,9 +1,2 @@
-/*
-!site/
-!app/
-site/config.php
-site/assets
-site/.DS_Store
-!.gitignore
-!.htaccess
-!README.md
+.DS_Store
+/site/.DS_Store

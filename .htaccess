@@ -1,3 +1,17 @@
+# 1. Redirect Root URL to /app/index.html
+RewriteCond %{REQUEST_URI} ^/?$ 
+RewriteRule ^$ /app/index.html [L]
+
+# 2. Serve Existing Files and Directories Normally
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 3. Exclude ProcessWire and API Paths from Being Rewritten
+RewriteCond %{REQUEST_URI} !^/(processwire|api)/ [NC]
+
+# 4. Redirect All Other Requests to /app/index.html for Client-Side Routing
+RewriteRule ^ /app/index.html [L]
 #################################################################################################
 # START PROCESSWIRE HTACCESS DIRECTIVES
 # @version 3.0
