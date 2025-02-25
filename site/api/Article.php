@@ -32,6 +32,9 @@ class Article {
 
 		$response->id = $article->id;
 		$response->name = $article->name;
+		$response->title = $article->title;
+		$response->body = $article->body;
+		$response->images = $article->images->explode('url');
 
 		return $response;
 	}
