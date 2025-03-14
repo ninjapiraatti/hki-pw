@@ -7,6 +7,7 @@ require_once wire('config')->paths->AppApi . 'classes/AppApiHelper.php';
 
 require_once __DIR__ . '/Example.php';
 require_once __DIR__ . '/Article.php';
+require_once __DIR__ . '/Thing.php';
 
 $routes = [
 	['OPTIONS', 'test', ['GET']], // this is needed for CORS Requests
@@ -23,5 +24,11 @@ $routes = [
 		['GET', '', Article::class, 'getArticles', ['auth' => true]],
 		['OPTIONS', '{id:\d+}', ['GET']],
 		['GET', '{id:\d+}', Article::class, 'getArticle', ['auth' => true]],
+	],
+	'things' => [
+		['OPTIONS', '', ['GET']],
+		['GET', '', Thing::class, 'getThings', ['auth' => true]],
+		['OPTIONS', '{id:\d+}', ['GET']],
+		['GET', '{id:\d+}', Thing::class, 'getThing', ['auth' => true]],
 	],
 ];

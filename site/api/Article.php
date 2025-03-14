@@ -14,6 +14,7 @@ class Article {
 				'name' => $article->name,
         'title' => $article->title,
         'body' => $article->body,
+				'images' => $article->images->count() ? $article->images->explode('url') : [],
 			]);
 		}
 
@@ -34,7 +35,7 @@ class Article {
 		$response->name = $article->name;
 		$response->title = $article->title;
 		$response->body = $article->body;
-		$response->images = $article->images->explode('url');
+		$response->images = $article->images->count() ? $article->images->explode('url') : [];
 
 		return $response;
 	}
