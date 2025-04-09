@@ -13,6 +13,7 @@ class Article {
 				'id' => $article->id,
 				'name' => $article->name,
         'title' => $article->title,
+				'ingress' => $article->ingress,
         'body' => $article->body,
 				'images' => $article->images->count() ? $article->images->explode('url') : [],
 			]);

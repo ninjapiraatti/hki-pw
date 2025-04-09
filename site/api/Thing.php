@@ -21,6 +21,7 @@ class Thing {
                 'id' => $thing->id,
                 'name' => $thing->name,
                 'title' => $thing->title,
+                'ingress' => $thing->ingress,
                 'body' => $thing->body,
                 'images' => $thing->images->count() ? $thing->images->explode('url') : [],
                 'damage' => $thing->damage,

@@ -7,6 +7,7 @@ require_once wire('config')->paths->AppApi . 'classes/AppApiHelper.php';
 
 require_once __DIR__ . '/Example.php';
 require_once __DIR__ . '/Article.php';
+require_once __DIR__ . '/Character.php';
 require_once __DIR__ . '/Thing.php';
 
 $routes = [
@@ -24,6 +25,12 @@ $routes = [
 		['GET', '', Article::class, 'getArticles', ['auth' => true]],
 		['OPTIONS', '{id:\d+}', ['GET']],
 		['GET', '{id:\d+}', Article::class, 'getArticle', ['auth' => true]],
+	],
+	'characters' => [
+		['OPTIONS', '', ['GET']],
+		['GET', '', Character::class, 'getCharacters', ['auth' => true]],
+		['OPTIONS', '{id:\d+}', ['GET']],
+		['GET', '{id:\d+}', Character::class, 'getCharacter', ['auth' => true]],
 	],
 	'things' => [
 		['OPTIONS', '', ['GET']],
