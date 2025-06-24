@@ -54,4 +54,78 @@ class Character {
 
 		return $response;
 	}
+	
+	public static function createCharacter($data) {
+		if (empty($data->name)) {
+			throw new \Exception('Name is required in request body', 400);
+		}
+
+		// Create new character page
+		$charactersParent = wire('pages')->get('template=characters');
+		if (!$charactersParent->id) {
+			$charactersParent = wire('pages')->get('/');
+		}
+
+		$character = new \ProcessWire\Page();
+		$character->template = 'character';
+		$character->parent = $charactersParent;
+		$character->name = wire('sanitizer')->pageName($data->name);
+		$character->title = $data->name; // Use name as title
+
+		// Set optional fields if provided
+		if (isset($data->bio) && !empty($data->bio)) {
+			$character->ingress = $data->bio;
+		}
+		if (isset($data->body)) {
+			$character->body = $data->body;
+		}
+
+		// Set attribute values if provided
+		if (isset($data->strength)) {
+			$character->attribute_strength = (int)$data->strength;
+		}
+		if (isset($data->perception)) {
+			$character->attribute_perception = (int)$data->perception;
+		}
+		if (isset($data->endurance)) {
+			$character->attribute_endurance = (int)$data->endurance;
+		}
+		if (isset($data->charisma)) {
+			$character->attribute_charisma = (int)$data->charisma;
+		}
+		if (isset($data->intelligence)) {
+			$character->attribute_intelligence = (int)$data->intelligence;
+		}
+		if (isset($data->agility)) {
+			$character->attribute_agility = (int)$data->agility;
+		}
+		if (isset($data->luck)) {
+			$character->attribute_luck = (int)$data->luck;
+		}
+
+		// Save the character
+		$character->save();
+
+		if (!$character->id) {
+			throw new \Exception('Failed to create character', 500);
+		}
+
+		// Return the created character data
+		$response = new \StdClass();
+		$response->id = $character->id;
+		$response->name = $character->name;
+		$response->title = $character->title;
+		$response->ingress = $character->ingress;
+		$response->body = $character->body;
+		$response->images = $character->images->count() ? $character->images->explode('url') : [];
+		$response->strength = $character->attribute_strength;
+		$response->perception = $character->attribute_perception;
+		$response->endurance = $character->attribute_endurance;
+		$response->charisma = $character->attribute_charisma;
+		$response->intelligence = $character->attribute_intelligence;
+		$response->agility = $character->attribute_agility;
+		$response->luck = $character->attribute_luck;
+
+		return $response;
+	}
 }

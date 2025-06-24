@@ -21,20 +21,23 @@ $routes = [
 		['GET', '{id:\d+}', Example::class, 'getUser', ['auth' => true]], // check: https://github.com/nikic/FastRoute
 	],
   'articles' => [
-		['OPTIONS', '', ['GET']],
+		['OPTIONS', '', ['GET', 'POST']],
 		['GET', '', Article::class, 'getArticles', ['auth' => true]],
+		['POST', '', Article::class, 'createArticle', ['auth' => true]],
 		['OPTIONS', '{id:\d+}', ['GET']],
 		['GET', '{id:\d+}', Article::class, 'getArticle', ['auth' => true]],
 	],
 	'characters' => [
-		['OPTIONS', '', ['GET']],
+		['OPTIONS', '', ['GET', 'POST']],
 		['GET', '', Character::class, 'getCharacters', ['auth' => true]],
+		['POST', '', Character::class, 'createCharacter', ['auth' => true]],
 		['OPTIONS', '{id:\d+}', ['GET']],
 		['GET', '{id:\d+}', Character::class, 'getCharacter', ['auth' => true]],
 	],
 	'things' => [
-		['OPTIONS', '', ['GET']],
+		['OPTIONS', '', ['GET', 'POST']],
 		['GET', '', Thing::class, 'getThings', ['auth' => true]],
+		['POST', '', Thing::class, 'createThing', ['auth' => true]],
 		['OPTIONS', '{id:\d+}', ['GET']],
 		['GET', '{id:\d+}', Thing::class, 'getThing', ['auth' => true]],
 	],
