@@ -72,6 +72,21 @@ class Character {
 		$character->name = wire('sanitizer')->pageName($data->name);
 		$character->title = $data->name; // Use name as title
 
+		// Set character data using shared method
+		self::setCharacterData($character, $data);
+
+		// Save the character
+		$character->save();
+
+		if (!$character->id) {
+			throw new \Exception('Failed to create character', 500);
+		}
+
+		// Return the created character data using shared method
+		return self::formatCharacterResponse($character);
+	}
+	
+	private static function setCharacterData($character, $data) {
 		// Set optional fields if provided
 		if (isset($data->bio) && !empty($data->bio)) {
 			$character->ingress = $data->bio;
@@ -102,15 +117,9 @@ class Character {
 		if (isset($data->luck)) {
 			$character->attribute_luck = (int)$data->luck;
 		}
-
-		// Save the character
-		$character->save();
-
-		if (!$character->id) {
-			throw new \Exception('Failed to create character', 500);
-		}
-
-		// Return the created character data
+	}
+	
+	private static function formatCharacterResponse($character) {
 		$response = new \StdClass();
 		$response->id = $character->id;
 		$response->name = $character->name;
@@ -125,7 +134,48 @@ class Character {
 		$response->intelligence = $character->attribute_intelligence;
 		$response->agility = $character->attribute_agility;
 		$response->luck = $character->attribute_luck;
-
+		
 		return $response;
+	}
+	
+	public static function updateCharacter($data) {
+		// Extract ID from URL parameters and validate it
+		$data = AppApiHelper::checkAndSanitizeRequiredParameters($data, ['id|int']);
+		
+		// Get the character to update
+		$character = wire('pages')->get($data->id);
+		
+		if (!$character->id) {
+			throw new \Exception('Character not found', 404);
+		}
+		
+		if ($character->template->name !== 'character') {
+			throw new \Exception('Page is not a character', 400);
+		}
+		
+		// Get JSON data from request body
+		$requestBody = json_decode(file_get_contents('php://input'));
+		
+		if (!$requestBody) {
+			throw new \Exception('Invalid JSON data in request body', 400);
+		}
+		
+		// Disable output formatting to allow modifications
+		$character->of(false);
+		
+		// Update name and title if provided
+		if (isset($requestBody->name) && !empty($requestBody->name)) {
+			$character->name = wire('sanitizer')->pageName($requestBody->name);
+			$character->title = $requestBody->name;
+		}
+		
+		// Set character data using shared method
+		self::setCharacterData($character, $requestBody);
+		
+		// Save the character
+		$character->save();
+		
+		// Return the updated character data using shared method
+		return self::formatCharacterResponse($character);
 	}
 }

@@ -28,10 +28,11 @@ $routes = [
 		['GET', '{id:\d+}', Article::class, 'getArticle', ['auth' => true]],
 	],
 	'characters' => [
-		['OPTIONS', '', ['GET', 'POST']],
+		['OPTIONS', '', ['GET', 'POST', 'PUT']],
 		['GET', '', Character::class, 'getCharacters', ['auth' => true]],
 		['POST', '', Character::class, 'createCharacter', ['auth' => true]],
-		['OPTIONS', '{id:\d+}', ['GET']],
+		['PUT', '{id:\d+}', Character::class, 'updateCharacter', ['auth' => true]],
+		['OPTIONS', '{id:\d+}', ['GET', 'POST', 'PUT']],
 		['GET', '{id:\d+}', Character::class, 'getCharacter', ['auth' => true]],
 	],
 	'things' => [
