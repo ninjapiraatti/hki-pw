@@ -9,11 +9,19 @@ class Thing {
         ];
 
         foreach (wire('pages')->find("template=thing") as $thing) {
-            $effectsArray = [];
-            foreach($thing->effects as $effect) {
-                $effectsArray[] = [
-                    'target' => $effect->effect_target->title,
-                    'strength' => $effect->effect_strength,
+            $attributeEffectsArray = [];
+            foreach($thing->attribute_effects as $attributeEffect) {
+                $attributeEffectsArray[] = [
+                    'target' => $attributeEffect->attribute_effect_target->title,
+                    'strength' => $attributeEffect->effect_strength,
+                ];
+            }
+
+            $skillEffectsArray = [];
+            foreach($thing->skill_effects as $skillEffect) {
+                $skillEffectsArray[] = [
+                    'target' => $skillEffect->skill_effect_target,
+                    'strength' => $skillEffect->effect_strength,
                 ];
             }
             
@@ -25,7 +33,8 @@ class Thing {
                 'body' => $thing->body,
                 'images' => $thing->images->count() ? $thing->images->explode('url') : [],
                 'damage' => $thing->damage,
-                'effects' => $effectsArray,
+                'attributeEffects' => $attributeEffectsArray,
+                'skillEffects' => $skillEffectsArray,
             ]);
         }
 
@@ -48,14 +57,23 @@ class Thing {
         $response->body = $thing->body;
         $response->images = $thing->images->count() ? $thing->images->explode('url') : [];
         
-        $effectsArray = [];
-        foreach($thing->effects as $effect) {
-            $effectsArray[] = [
-                'target' => $effect->effect_target->title,
-                'strength' => $effect->effect_strength,
+        $attributeEffectsArray = [];
+        foreach($thing->attribute_effects as $attributeEffect) {
+            $attributeEffectsArray[] = [
+                'target' => $attributeEffect->attribute_effect_target->title,
+                'strength' => $attributeEffect->effect_strength,
             ];
         }
-        $response->effects = $effectsArray;
+        $response->attributeEffects = $attributeEffectsArray;
+
+        $skillEffectsArray = [];
+        foreach($thing->skill_effects as $skillEffect) {
+            $skillEffectsArray[] = [
+                'target' => $skillEffect->skill_effect_target,
+                'strength' => $skillEffect->effect_strength,
+            ];
+        }
+        $response->skillEffects = $skillEffectsArray;
 
         return $response;
     }
