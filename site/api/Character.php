@@ -74,7 +74,7 @@ class Character {
 		$character->template = 'character';
 		$character->parent = $charactersParent;
 		$character->name = wire('sanitizer')->pageName($data->name);
-		$character->title = $data->name; // Use name as title
+		$character->title = $data->title;
 
 		// Set character data using shared method
 		self::setCharacterData($character, $data);
@@ -184,7 +184,7 @@ class Character {
 		// Update name and title if provided
 		if (isset($requestBody->name) && !empty($requestBody->name)) {
 			$character->name = wire('sanitizer')->pageName($requestBody->name);
-			$character->title = $requestBody->name;
+			$character->title = $requestBody->title;
 		}
 		
 		// Set character data using shared method
