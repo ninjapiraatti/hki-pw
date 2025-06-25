@@ -23,6 +23,8 @@ class Character {
 				'intelligence' => $character->attribute_intelligence,
 				'agility' => $character->attribute_agility,
 				'luck' => $character->attribute_luck,
+				'inventory' => $character->inventory ? explode(',', $character->inventory) : [],
+				'deutsche_marks' => (int)$character->deutsche_marks,
 			]);
 		}
 
@@ -51,6 +53,8 @@ class Character {
 		$response->intelligence = $character->attribute_intelligence;
 		$response->agility = $character->attribute_agility;
 		$response->luck = $character->attribute_luck;
+		$response->inventory = $character->inventory ? explode(',', $character->inventory) : [];
+		$response->deutsche_marks = (int)$character->deutsche_marks;
 
 		return $response;
 	}
@@ -117,6 +121,18 @@ class Character {
 		if (isset($data->luck)) {
 			$character->attribute_luck = (int)$data->luck;
 		}
+		
+		// Set inventory and deutsche_marks if provided
+		if (isset($data->inventory)) {
+			if (is_array($data->inventory)) {
+				$character->inventory = implode(',', $data->inventory);
+			} else {
+				$character->inventory = $data->inventory;
+			}
+		}
+		if (isset($data->deutsche_marks)) {
+			$character->deutsche_marks = (int)$data->deutsche_marks;
+		}
 	}
 	
 	private static function formatCharacterResponse($character) {
@@ -134,6 +150,8 @@ class Character {
 		$response->intelligence = $character->attribute_intelligence;
 		$response->agility = $character->attribute_agility;
 		$response->luck = $character->attribute_luck;
+		$response->inventory = $character->inventory ? explode(',', $character->inventory) : [];
+		$response->deutsche_marks = (int)$character->deutsche_marks;
 		
 		return $response;
 	}
