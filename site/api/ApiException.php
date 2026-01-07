@@ -27,7 +27,7 @@ class ApiException extends \Exception {
 /**
  * 404 Not Found exception
  */
-class NotFoundException extends ApiException {
+class ApiNotFoundException extends ApiException {
     public function __construct(string $resource = 'Resource') {
         parent::__construct("{$resource} not found", 404);
     }
@@ -36,7 +36,7 @@ class NotFoundException extends ApiException {
 /**
  * 400 Bad Request - validation errors
  */
-class ValidationException extends ApiException {
+class ApiValidationException extends ApiException {
     public function __construct(string $message, array $errors = []) {
         parent::__construct($message, 400, $errors);
     }
@@ -45,7 +45,7 @@ class ValidationException extends ApiException {
 /**
  * 500 Internal Server Error
  */
-class ServerException extends ApiException {
+class ApiServerException extends ApiException {
     public function __construct(string $message = 'Internal server error') {
         parent::__construct($message, 500);
     }

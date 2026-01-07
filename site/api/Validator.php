@@ -24,7 +24,7 @@ class Validator {
         }
 
         if (!empty($missing)) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 'Missing required fields: ' . implode(', ', $missing),
                 ['missing_fields' => $missing]
             );
@@ -42,7 +42,7 @@ class Validator {
      */
     public static function validateString($value, string $field, int $minLen = 0, int $maxLen = 0): void {
         if (!is_string($value)) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 "Field '{$field}' must be a string",
                 ['field' => $field, 'expected' => 'string']
             );
@@ -51,14 +51,14 @@ class Validator {
         $len = mb_strlen($value);
 
         if ($minLen > 0 && $len < $minLen) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 "Field '{$field}' must be at least {$minLen} characters",
                 ['field' => $field, 'min_length' => $minLen, 'actual_length' => $len]
             );
         }
 
         if ($maxLen > 0 && $len > $maxLen) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 "Field '{$field}' must be at most {$maxLen} characters",
                 ['field' => $field, 'max_length' => $maxLen, 'actual_length' => $len]
             );
@@ -76,7 +76,7 @@ class Validator {
      */
     public static function validateInt($value, string $field, ?int $min = null, ?int $max = null): void {
         if (!is_numeric($value)) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 "Field '{$field}' must be a number",
                 ['field' => $field, 'expected' => 'integer']
             );
@@ -85,14 +85,14 @@ class Validator {
         $intVal = (int) $value;
 
         if ($min !== null && $intVal < $min) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 "Field '{$field}' must be at least {$min}",
                 ['field' => $field, 'min' => $min, 'actual' => $intVal]
             );
         }
 
         if ($max !== null && $intVal > $max) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 "Field '{$field}' must be at most {$max}",
                 ['field' => $field, 'max' => $max, 'actual' => $intVal]
             );
@@ -108,7 +108,7 @@ class Validator {
      */
     public static function validateArray($value, string $field): void {
         if (!is_array($value)) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 "Field '{$field}' must be an array",
                 ['field' => $field, 'expected' => 'array']
             );
@@ -174,7 +174,7 @@ class Validator {
         $data = json_decode($body);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ValidationException(
+            throw new ApiValidationException(
                 'Invalid JSON in request body: ' . json_last_error_msg(),
                 ['json_error' => json_last_error_msg()]
             );

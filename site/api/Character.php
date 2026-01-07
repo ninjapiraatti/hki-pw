@@ -37,11 +37,11 @@ class Character {
         $character = wire('pages')->get($data->id);
 
         if (!$character->id) {
-            throw new NotFoundException('Character');
+            throw new ApiNotFoundException('Character');
         }
 
         if ($character->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not a character');
+            throw new ApiValidationException('Page is not a character');
         }
 
         return self::formatCharacterResponse($character);
@@ -76,7 +76,7 @@ class Character {
         $character->save();
 
         if (!$character->id) {
-            throw new ServerException('Failed to create character');
+            throw new ApiServerException('Failed to create character');
         }
 
         return self::formatCharacterResponse($character);
@@ -88,11 +88,11 @@ class Character {
         $character = wire('pages')->get($data->id);
 
         if (!$character->id) {
-            throw new NotFoundException('Character');
+            throw new ApiNotFoundException('Character');
         }
 
         if ($character->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not a character');
+            throw new ApiValidationException('Page is not a character');
         }
 
         // Get JSON data from request body
@@ -136,11 +136,11 @@ class Character {
         $character = wire('pages')->get($data->id);
 
         if (!$character->id) {
-            throw new NotFoundException('Character');
+            throw new ApiNotFoundException('Character');
         }
 
         if ($character->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not a character');
+            throw new ApiValidationException('Page is not a character');
         }
 
         $id = $character->id;

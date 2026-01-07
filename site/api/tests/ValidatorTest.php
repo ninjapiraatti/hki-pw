@@ -4,7 +4,7 @@ namespace ProcessWire\Tests;
 
 use PHPUnit\Framework\TestCase;
 use ProcessWire\Validator;
-use ProcessWire\ValidationException;
+use ProcessWire\ApiValidationException;
 
 class ValidatorTest extends TestCase {
 
@@ -17,7 +17,7 @@ class ValidatorTest extends TestCase {
     }
 
     public function testValidateRequiredThrowsOnMissingField(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage('Missing required fields: email');
 
         $data = (object) ['name' => 'Test'];
@@ -25,14 +25,14 @@ class ValidatorTest extends TestCase {
     }
 
     public function testValidateRequiredThrowsOnEmptyString(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
 
         $data = (object) ['name' => ''];
         Validator::validateRequired($data, ['name']);
     }
 
     public function testValidateRequiredThrowsOnWhitespaceOnly(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
 
         $data = (object) ['name' => '   '];
         Validator::validateRequired($data, ['name']);
@@ -44,21 +44,21 @@ class ValidatorTest extends TestCase {
     }
 
     public function testValidateStringThrowsOnNonString(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'field' must be a string");
 
         Validator::validateString(123, 'field');
     }
 
     public function testValidateStringThrowsOnTooShort(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'name' must be at least 5 characters");
 
         Validator::validateString('Hi', 'name', 5, 100);
     }
 
     public function testValidateStringThrowsOnTooLong(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'name' must be at most 5 characters");
 
         Validator::validateString('Hello World', 'name', 1, 5);
@@ -75,21 +75,21 @@ class ValidatorTest extends TestCase {
     }
 
     public function testValidateIntThrowsOnNonNumeric(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'age' must be a number");
 
         Validator::validateInt('abc', 'age');
     }
 
     public function testValidateIntThrowsOnBelowMin(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'score' must be at least 0");
 
         Validator::validateInt(-5, 'score', 0, 100);
     }
 
     public function testValidateIntThrowsOnAboveMax(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'score' must be at most 100");
 
         Validator::validateInt(150, 'score', 0, 100);
@@ -101,7 +101,7 @@ class ValidatorTest extends TestCase {
     }
 
     public function testValidateArrayThrowsOnNonArray(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'items' must be an array");
 
         Validator::validateArray('not an array', 'items');

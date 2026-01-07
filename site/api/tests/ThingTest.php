@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use ProcessWire\Thing;
 use ProcessWire\Page;
 use ProcessWire\MockPages;
-use ProcessWire\NotFoundException;
-use ProcessWire\ValidationException;
+use ProcessWire\ApiNotFoundException;
+use ProcessWire\ApiValidationException;
 
 class ThingTest extends TestCase {
 
@@ -75,20 +75,20 @@ class ThingTest extends TestCase {
     }
 
     public function testGetThingThrowsNotFoundForMissingThing(): void {
-        $this->expectException(NotFoundException::class);
+        $this->expectException(ApiNotFoundException::class);
         $this->expectExceptionMessage('Thing not found');
 
         $data = (object) ['id' => 999];
         Thing::getThing($data);
     }
 
-    public function testGetThingThrowsValidationExceptionForWrongTemplate(): void {
+    public function testGetThingThrowsApiValidationExceptionForWrongTemplate(): void {
         $page = new Page();
         $page->id = 100;
         $page->template->name = 'article';
         MockPages::addMockPage($page);
 
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage('Page is not a thing');
 
         $data = (object) ['id' => 100];
@@ -96,7 +96,7 @@ class ThingTest extends TestCase {
     }
 
     public function testCreateThingRequiresName(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage('Missing required fields: name');
 
         $data = (object) ['title' => 'Test'];
@@ -104,7 +104,7 @@ class ThingTest extends TestCase {
     }
 
     public function testCreateThingValidatesNameLength(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'name' must be at most 100 characters");
 
         $data = (object) ['name' => str_repeat('a', 101)];
@@ -112,7 +112,7 @@ class ThingTest extends TestCase {
     }
 
     public function testCreateThingValidatesDamageIsNonNegative(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'damage' must be at least 0");
 
         $data = (object) [
@@ -123,7 +123,7 @@ class ThingTest extends TestCase {
     }
 
     public function testDeleteThingThrowsNotFoundForMissingThing(): void {
-        $this->expectException(NotFoundException::class);
+        $this->expectException(ApiNotFoundException::class);
 
         $data = (object) ['id' => 999];
         Thing::deleteThing($data);

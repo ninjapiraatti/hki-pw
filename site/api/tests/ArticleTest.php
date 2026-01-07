@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use ProcessWire\Article;
 use ProcessWire\Page;
 use ProcessWire\MockPages;
-use ProcessWire\NotFoundException;
-use ProcessWire\ValidationException;
+use ProcessWire\ApiNotFoundException;
+use ProcessWire\ApiValidationException;
 
 class ArticleTest extends TestCase {
 
@@ -74,20 +74,20 @@ class ArticleTest extends TestCase {
     }
 
     public function testGetArticleThrowsNotFoundForMissingArticle(): void {
-        $this->expectException(NotFoundException::class);
+        $this->expectException(ApiNotFoundException::class);
         $this->expectExceptionMessage('Article not found');
 
         $data = (object) ['id' => 999];
         Article::getArticle($data);
     }
 
-    public function testGetArticleThrowsValidationExceptionForWrongTemplate(): void {
+    public function testGetArticleThrowsApiValidationExceptionForWrongTemplate(): void {
         $page = new Page();
         $page->id = 100;
         $page->template->name = 'character';
         MockPages::addMockPage($page);
 
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage('Page is not an article');
 
         $data = (object) ['id' => 100];
@@ -95,7 +95,7 @@ class ArticleTest extends TestCase {
     }
 
     public function testCreateArticleRequiresName(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage('Missing required fields: name');
 
         $data = (object) ['title' => 'Test'];
@@ -103,7 +103,7 @@ class ArticleTest extends TestCase {
     }
 
     public function testCreateArticleValidatesNameLength(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'name' must be at most 100 characters");
 
         $data = (object) ['name' => str_repeat('a', 101)];
@@ -111,7 +111,7 @@ class ArticleTest extends TestCase {
     }
 
     public function testCreateArticleValidatesTitleLength(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'title' must be at most 200 characters");
 
         $data = (object) [
@@ -122,7 +122,7 @@ class ArticleTest extends TestCase {
     }
 
     public function testDeleteArticleThrowsNotFoundForMissingArticle(): void {
-        $this->expectException(NotFoundException::class);
+        $this->expectException(ApiNotFoundException::class);
 
         $data = (object) ['id' => 999];
         Article::deleteArticle($data);

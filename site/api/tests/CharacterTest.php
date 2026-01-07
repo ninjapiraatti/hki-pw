@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use ProcessWire\Character;
 use ProcessWire\Page;
 use ProcessWire\MockPages;
-use ProcessWire\NotFoundException;
-use ProcessWire\ValidationException;
+use ProcessWire\ApiNotFoundException;
+use ProcessWire\ApiValidationException;
 
 class CharacterTest extends TestCase {
 
@@ -84,20 +84,20 @@ class CharacterTest extends TestCase {
     }
 
     public function testGetCharacterThrowsNotFoundForMissingCharacter(): void {
-        $this->expectException(NotFoundException::class);
+        $this->expectException(ApiNotFoundException::class);
         $this->expectExceptionMessage('Character not found');
 
         $data = (object) ['id' => 999];
         Character::getCharacter($data);
     }
 
-    public function testGetCharacterThrowsValidationExceptionForWrongTemplate(): void {
+    public function testGetCharacterThrowsApiValidationExceptionForWrongTemplate(): void {
         $page = new Page();
         $page->id = 100;
         $page->template->name = 'article';
         MockPages::addMockPage($page);
 
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage('Page is not a character');
 
         $data = (object) ['id' => 100];
@@ -105,7 +105,7 @@ class CharacterTest extends TestCase {
     }
 
     public function testCreateCharacterRequiresName(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage('Missing required fields: name');
 
         $data = (object) ['title' => 'Test'];
@@ -113,7 +113,7 @@ class CharacterTest extends TestCase {
     }
 
     public function testCreateCharacterValidatesNameLength(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'name' must be at most 100 characters");
 
         $data = (object) ['name' => str_repeat('a', 101)];
@@ -121,7 +121,7 @@ class CharacterTest extends TestCase {
     }
 
     public function testCreateCharacterValidatesAttributeRange(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'strength' must be at most 100");
 
         $data = (object) [
@@ -132,7 +132,7 @@ class CharacterTest extends TestCase {
     }
 
     public function testCreateCharacterValidatesInventoryIsArray(): void {
-        $this->expectException(ValidationException::class);
+        $this->expectException(ApiValidationException::class);
         $this->expectExceptionMessage("Field 'inventory' must be an array");
 
         $data = (object) [
@@ -143,7 +143,7 @@ class CharacterTest extends TestCase {
     }
 
     public function testDeleteCharacterThrowsNotFoundForMissingCharacter(): void {
-        $this->expectException(NotFoundException::class);
+        $this->expectException(ApiNotFoundException::class);
 
         $data = (object) ['id' => 999];
         Character::deleteCharacter($data);

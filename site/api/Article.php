@@ -37,11 +37,11 @@ class Article {
         $article = wire('pages')->get($data->id);
 
         if (!$article->id) {
-            throw new NotFoundException('Article');
+            throw new ApiNotFoundException('Article');
         }
 
         if ($article->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not an article');
+            throw new ApiValidationException('Page is not an article');
         }
 
         return self::formatArticleResponse($article);
@@ -74,7 +74,7 @@ class Article {
         $article->save();
 
         if (!$article->id) {
-            throw new ServerException('Failed to create article');
+            throw new ApiServerException('Failed to create article');
         }
 
         return self::formatArticleResponse($article);
@@ -86,11 +86,11 @@ class Article {
         $article = wire('pages')->get($data->id);
 
         if (!$article->id) {
-            throw new NotFoundException('Article');
+            throw new ApiNotFoundException('Article');
         }
 
         if ($article->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not an article');
+            throw new ApiValidationException('Page is not an article');
         }
 
         // Get JSON data from request body
@@ -132,11 +132,11 @@ class Article {
         $article = wire('pages')->get($data->id);
 
         if (!$article->id) {
-            throw new NotFoundException('Article');
+            throw new ApiNotFoundException('Article');
         }
 
         if ($article->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not an article');
+            throw new ApiValidationException('Page is not an article');
         }
 
         $id = $article->id;

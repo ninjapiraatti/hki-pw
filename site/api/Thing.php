@@ -37,11 +37,11 @@ class Thing {
         $thing = wire('pages')->get($data->id);
 
         if (!$thing->id) {
-            throw new NotFoundException('Thing');
+            throw new ApiNotFoundException('Thing');
         }
 
         if ($thing->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not a thing');
+            throw new ApiValidationException('Page is not a thing');
         }
 
         return self::formatThingResponse($thing);
@@ -78,7 +78,7 @@ class Thing {
         $thing->save();
 
         if (!$thing->id) {
-            throw new ServerException('Failed to create thing');
+            throw new ApiServerException('Failed to create thing');
         }
 
         return self::formatThingResponse($thing);
@@ -90,11 +90,11 @@ class Thing {
         $thing = wire('pages')->get($data->id);
 
         if (!$thing->id) {
-            throw new NotFoundException('Thing');
+            throw new ApiNotFoundException('Thing');
         }
 
         if ($thing->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not a thing');
+            throw new ApiValidationException('Page is not a thing');
         }
 
         // Get JSON data from request body
@@ -140,11 +140,11 @@ class Thing {
         $thing = wire('pages')->get($data->id);
 
         if (!$thing->id) {
-            throw new NotFoundException('Thing');
+            throw new ApiNotFoundException('Thing');
         }
 
         if ($thing->template->name !== self::TEMPLATE_NAME) {
-            throw new ValidationException('Page is not a thing');
+            throw new ApiValidationException('Page is not a thing');
         }
 
         $id = $thing->id;
