@@ -1,2 +1,15 @@
+# macOS
 .DS_Store
-/site/.DS_Store
+
+# Composer
+/site/api/vendor/
+/site/api/composer.lock
+
+# PHPUnit
+/site/api/.phpunit.cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
