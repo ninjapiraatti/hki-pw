@@ -30,11 +30,25 @@ class CharacterTest extends TestCase {
         $character->attribute_intelligence = 9;
         $character->attribute_agility = 5;
         $character->attribute_luck = 4;
-        $character->inventory = '["sword","shield"]';
         $character->deutsche_marks = 100;
+
+        // Add mock Things to inventory
+        $sword = $this->createMockThing(1001, 'sword');
+        $shield = $this->createMockThing(1002, 'shield');
+        $character->inventory->add($sword);
+        $character->inventory->add($shield);
 
         MockPages::addMockPage($character);
         return $character;
+    }
+
+    protected function createMockThing(int $id, string $name): Page {
+        $thing = new Page();
+        $thing->id = $id;
+        $thing->name = $name;
+        $thing->template->name = 'thing';
+        MockPages::addMockPage($thing);
+        return $thing;
     }
 
     public function testGetCharactersReturnsEmptyArrayWhenNoCharacters(): void {
@@ -80,7 +94,7 @@ class CharacterTest extends TestCase {
         $this->assertEquals(123, $result['id']);
         $this->assertEquals('test-hero', $result['name']);
         $this->assertEquals(10, $result['strength']);
-        $this->assertEquals(['sword', 'shield'], $result['inventory']);
+        $this->assertEquals([1001, 1002], $result['inventory']);
     }
 
     public function testGetCharacterThrowsNotFoundForMissingCharacter(): void {
@@ -142,6 +156,44 @@ class CharacterTest extends TestCase {
         Character::createCharacter($data);
     }
 
+    public function testCreateCharacterValidatesInventoryContainsIntegers(): void {
+        $this->expectException(ApiValidationException::class);
+        $this->expectExceptionMessage("Field 'inventory' must contain only integers");
+
+        $data = (object) [
+            'name' => 'test',
+            'inventory' => [1, 'sword', 3]
+        ];
+        Character::createCharacter($data);
+    }
+
+    public function testCreateCharacterAcceptsIntegerInventory(): void {
+        // Create mock Things that will be added to inventory
+        $this->createMockThing(101, 'item1');
+        $this->createMockThing(102, 'item2');
+        $this->createMockThing(103, 'item3');
+
+        $data = (object) [
+            'name' => 'test-character',
+            'inventory' => [101, 102, 103]
+        ];
+
+        $result = Character::createCharacter($data);
+
+        $this->assertEquals([101, 102, 103], $result['inventory']);
+    }
+
+    public function testCreateCharacterValidatesImagesFormat(): void {
+        $this->expectException(ApiValidationException::class);
+        $this->expectExceptionMessage("contains invalid base64 data");
+
+        $data = (object) [
+            'name' => 'test',
+            'images' => ['not valid base64!!!']
+        ];
+        Character::createCharacter($data);
+    }
+
     public function testDeleteCharacterThrowsNotFoundForMissingCharacter(): void {
         $this->expectException(ApiNotFoundException::class);
 
@@ -160,23 +212,13 @@ class CharacterTest extends TestCase {
         $this->assertStringContainsString('doomed-hero', $result['message']);
     }
 
-    public function testFormatCharacterResponseDecodesJsonInventory(): void {
+    public function testFormatCharacterResponseReturnsInventoryIds(): void {
         $character = $this->createMockCharacter(1, 'test');
-        $character->inventory = '["item1","item2","item3"]';
 
         $data = (object) ['id' => 1];
         $result = Character::getCharacter($data);
 
-        $this->assertEquals(['item1', 'item2', 'item3'], $result['inventory']);
-    }
-
-    public function testFormatCharacterResponseDecodesLegacyInventory(): void {
-        $character = $this->createMockCharacter(2, 'test');
-        $character->inventory = 'item1|item2|item3';
-
-        $data = (object) ['id' => 2];
-        $result = Character::getCharacter($data);
-
-        $this->assertEquals(['item1', 'item2', 'item3'], $result['inventory']);
+        // Should return IDs of Things in inventory
+        $this->assertEquals([1001, 1002], $result['inventory']);
     }
 }

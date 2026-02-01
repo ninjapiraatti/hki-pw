@@ -39,7 +39,7 @@ class Page {
     public $ingress = '';
     public $body = '';
     public $images;
-    public $inventory = '';
+    public $inventory;
     public $deutsche_marks = 0;
     public $attribute_strength = 0;
     public $attribute_perception = 0;
@@ -57,6 +57,7 @@ class Page {
     public function __construct() {
         $this->template = new MockTemplate();
         $this->images = new MockWireArray();
+        $this->inventory = new MockWireArray();
         $this->attribute_effects = new MockWireArray();
         $this->skill_effects = new MockWireArray();
     }
@@ -98,7 +99,29 @@ class MockWireArray implements \Countable, \IteratorAggregate {
     }
 
     public function add($item) {
-        $this->items[] = $item;
+        // For image fields, create a mock image object from file path
+        if (is_string($item) && file_exists($item)) {
+            $imageObj = new \stdClass();
+            $imageObj->url = '/site/assets/files/' . basename($item);
+            $imageObj->filename = $item;
+            $this->items[] = $imageObj;
+        } else {
+            $this->items[] = $item;
+        }
+        return $this;
+    }
+
+    public function first() {
+        return $this->items[0] ?? null;
+    }
+
+    public function deleteAll() {
+        $this->items = [];
+        return $this;
+    }
+
+    public function removeAll() {
+        $this->items = [];
         return $this;
     }
 
@@ -114,7 +137,15 @@ class MockPages {
     private static $pages = [];
 
     public function find($selector) {
-        return new MockPageArray(array_values(self::$pages));
+        $pages = array_values(self::$pages);
+
+        // Filter by template if specified
+        if (preg_match('/template=(\w+)/', $selector, $matches)) {
+            $template = $matches[1];
+            $pages = array_filter($pages, fn($p) => $p->template->name === $template);
+        }
+
+        return new MockPageArray(array_values($pages));
     }
 
     public function get($selector) {

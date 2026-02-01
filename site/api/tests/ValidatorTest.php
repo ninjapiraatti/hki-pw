@@ -107,6 +107,79 @@ class ValidatorTest extends TestCase {
         Validator::validateArray('not an array', 'items');
     }
 
+    public function testValidateIntArrayPasses(): void {
+        Validator::validateIntArray([1, 2, 3], 'ids');
+        $this->assertTrue(true);
+    }
+
+    public function testValidateIntArrayPassesWithStringNumbers(): void {
+        Validator::validateIntArray(['1', '2', '3'], 'ids');
+        $this->assertTrue(true);
+    }
+
+    public function testValidateIntArrayThrowsOnNonArray(): void {
+        $this->expectException(ApiValidationException::class);
+        $this->expectExceptionMessage("Field 'ids' must be an array");
+
+        Validator::validateIntArray('not an array', 'ids');
+    }
+
+    public function testValidateIntArrayThrowsOnNonIntegerItem(): void {
+        $this->expectException(ApiValidationException::class);
+        $this->expectExceptionMessage("Field 'ids' must contain only integers, invalid value at index 1");
+
+        Validator::validateIntArray([1, 'not a number', 3], 'ids');
+    }
+
+    public function testValidateBase64ImageValidPng(): void {
+        // 1x1 transparent PNG
+        $png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+        $result = Validator::validateBase64Image($png, 'image');
+
+        $this->assertEquals('png', $result['extension']);
+        $this->assertEquals('image/png', $result['mimeType']);
+        $this->assertNotEmpty($result['data']);
+    }
+
+    public function testValidateBase64ImageWithDataUri(): void {
+        // 1x1 transparent PNG with data URI prefix
+        $png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+        $result = Validator::validateBase64Image($png, 'image');
+
+        $this->assertEquals('png', $result['extension']);
+    }
+
+    public function testValidateBase64ImageThrowsOnInvalidBase64(): void {
+        $this->expectException(ApiValidationException::class);
+        $this->expectExceptionMessage("Field 'portrait' contains invalid base64 data");
+
+        Validator::validateBase64Image('not valid base64!!!', 'portrait');
+    }
+
+    public function testValidateBase64ImageThrowsOnInvalidImageType(): void {
+        $this->expectException(ApiValidationException::class);
+        $this->expectExceptionMessage("Field 'portrait' must be a valid image");
+
+        // Valid base64 but not an image (just text)
+        $textBase64 = base64_encode('Hello, this is just text');
+        Validator::validateBase64Image($textBase64, 'portrait');
+    }
+
+    public function testSaveBase64ToTempCreatesFile(): void {
+        // 1x1 transparent PNG
+        $png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+        $tempPath = Validator::saveBase64ToTemp($png, 'image');
+
+        $this->assertFileExists($tempPath);
+        $this->assertStringEndsWith('.png', $tempPath);
+
+        // Cleanup
+        unlink($tempPath);
+    }
+
     public function testGetPaginationParamsDefaults(): void {
         $params = Validator::getPaginationParams(new \stdClass());
 

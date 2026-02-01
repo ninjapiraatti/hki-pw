@@ -170,7 +170,16 @@ class Character {
         }
 
         if (isset($data->inventory)) {
-            Validator::validateArray($data->inventory, 'inventory');
+            Validator::validateIntArray($data->inventory, 'inventory');
+        }
+
+        if (isset($data->images) && !empty($data->images)) {
+            $images = is_array($data->images) ? $data->images : [$data->images];
+            foreach ($images as $index => $image) {
+                if (!empty($image)) {
+                    Validator::validateBase64Image($image, "images[{$index}]");
+                }
+            }
         }
     }
 
@@ -203,27 +212,69 @@ class Character {
             }
         }
 
-        // Set inventory using JSON encoding
-        if (isset($data->inventory)) {
-            if (is_array($data->inventory)) {
-                $character->inventory = Validator::encodeInventory($data->inventory);
-            } else {
-                $character->inventory = $data->inventory;
+        // Set inventory (PageArray of Thing references)
+        if (isset($data->inventory) && is_array($data->inventory)) {
+            // Clear existing inventory
+            if ($character->inventory && $character->inventory->count()) {
+                $character->inventory->removeAll();
+            }
+            // Add each Thing by ID
+            foreach ($data->inventory as $thingId) {
+                $thing = wire('pages')->get((int) $thingId);
+                if ($thing->id && $thing->template->name === 'thing') {
+                    $character->inventory->add($thing);
+                }
             }
         }
 
         if (isset($data->deutsche_marks)) {
             $character->deutsche_marks = (int) $data->deutsche_marks;
         }
+
+        // Handle image upload (base64 string or array of base64 strings)
+        if (isset($data->images) && !empty($data->images)) {
+            $images = is_array($data->images) ? $data->images : [$data->images];
+            $tempPaths = [];
+
+            try {
+                // Clear existing images if replacing
+                if ($character->images && $character->images->count()) {
+                    $character->images->deleteAll();
+                }
+
+                // Add each image
+                foreach ($images as $index => $imageData) {
+                    if (!empty($imageData)) {
+                        $tempPath = Validator::saveBase64ToTemp($imageData, "images[{$index}]");
+                        $tempPaths[] = $tempPath;
+                        $character->images->add($tempPath);
+                    }
+                }
+            } finally {
+                // Clean up temp files
+                foreach ($tempPaths as $tempPath) {
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
+                    }
+                }
+            }
+        }
     }
 
     private static function formatCharacterResponse($character, bool $forList = false): array {
+        // Get portrait URL (first image in images field)
+        $portrait = null;
+        if ($character->images && $character->images->count()) {
+            $portrait = $character->images->first()->url;
+        }
+
         $response = [
             'id' => $character->id,
             'name' => $character->name,
             'title' => $character->title,
             'ingress' => $character->ingress,
             'body' => $character->body,
+            'portrait' => $portrait,
             'images' => $character->images && $character->images->count() ? $character->images->explode('url') : [],
             'strength' => (int) $character->attribute_strength,
             'perception' => (int) $character->attribute_perception,
@@ -232,7 +283,7 @@ class Character {
             'intelligence' => (int) $character->attribute_intelligence,
             'agility' => (int) $character->attribute_agility,
             'luck' => (int) $character->attribute_luck,
-            'inventory' => Validator::decodeInventory($character->inventory),
+            'inventory' => $character->inventory && $character->inventory->count() ? $character->inventory->explode('id') : [],
             'deutsche_marks' => (int) $character->deutsche_marks,
         ];
 
