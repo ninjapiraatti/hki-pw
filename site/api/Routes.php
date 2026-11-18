@@ -5,7 +5,6 @@ namespace ProcessWire;
 require_once wire('config')->paths->AppApi . 'vendor/autoload.php';
 require_once wire('config')->paths->AppApi . 'classes/AppApiHelper.php';
 
-require_once __DIR__ . '/Example.php';
 require_once __DIR__ . '/ApiException.php';
 require_once __DIR__ . '/Validator.php';
 require_once __DIR__ . '/Article.php';
@@ -13,16 +12,6 @@ require_once __DIR__ . '/Character.php';
 require_once __DIR__ . '/Thing.php';
 
 $routes = [
-	['OPTIONS', 'test', ['GET']],
-	['GET', 'test', Example::class, 'test'],
-
-	'users' => [
-		['OPTIONS', '', ['GET']],
-		['GET', '', Example::class, 'getAllUsers', ['auth' => true]],
-		['OPTIONS', '{id:\d+}', ['GET']],
-		['GET', '{id:\d+}', Example::class, 'getUser', ['auth' => true]],
-	],
-
 	'articles' => [
 		['OPTIONS', '', ['GET', 'POST']],
 		['GET', '', Article::class, 'getArticles', ['auth' => true]],
@@ -41,6 +30,9 @@ $routes = [
 		['GET', '{id:\d+}', Character::class, 'getCharacter', ['auth' => true]],
 		['PUT', '{id:\d+}', Character::class, 'updateCharacter', ['auth' => true]],
 		['DELETE', '{id:\d+}', Character::class, 'deleteCharacter', ['auth' => true]],
+		['OPTIONS', '{id:\d+}/draft', ['PUT', 'DELETE']],
+		['PUT', '{id:\d+}/draft', Character::class, 'saveDraft', ['auth' => true]],
+		['DELETE', '{id:\d+}/draft', Character::class, 'deleteDraft', ['auth' => true]],
 	],
 
 	'things' => [

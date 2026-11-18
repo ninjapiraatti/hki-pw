@@ -13,3 +13,37 @@
 .vscode/
 *.swp
 *.swo
+# Local ProcessWire config (secrets)
+/site/config-local.php
+/site/config.php
+
+# ProcessWire runtime / content
+/site/assets/cache/
+/site/assets/logs/
+/site/assets/sessions/
+/site/assets/files/
+/site/assets/backups/
+/site/assets/active.php
+
+# DB dumps
+*.sql
+*.sql.gz
+
+# ProcessWire core (fetch from live / processwire.com)
+/wire/
+/index.php
+/composer.json
+/CONTRIBUTING.md
+/LICENSE.TXT
+
+# Stock ProcessWire site files and third-party modules
+/site/.htaccess
+/site/assets/
+/site/modules/
+/site/classes/
+/site/init.php
+/site/ready.php
+/site/finished.php
+
+# Built frontend
+/app/
