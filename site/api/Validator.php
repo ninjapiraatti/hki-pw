@@ -116,6 +116,98 @@ class Validator {
     }
 
     /**
+     * Validate that value is an array of integers
+     *
+     * @param mixed $value Value to validate
+     * @param string $field Field name for error messages
+     * @throws ValidationException If validation fails
+     */
+    public static function validateIntArray($value, string $field): void {
+        self::validateArray($value, $field);
+
+        foreach ($value as $index => $item) {
+            if (!is_numeric($item)) {
+                throw new ApiValidationException(
+                    "Field '{$field}' must contain only integers, invalid value at index {$index}",
+                    ['field' => $field, 'index' => $index, 'expected' => 'integer']
+                );
+            }
+        }
+    }
+
+    /**
+     * Validate and process base64 image data
+     *
+     * @param string $base64Data Base64 encoded image (with or without data URI prefix)
+     * @param string $field Field name for error messages
+     * @return array ['data' => decoded binary, 'extension' => file extension]
+     * @throws ValidationException If validation fails
+     */
+    public static function validateBase64Image(string $base64Data, string $field): array {
+        $allowedTypes = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/gif' => 'gif',
+            'image/webp' => 'webp',
+        ];
+
+        // Parse data URI if present (e.g., "data:image/png;base64,...")
+        $mimeType = null;
+        if (preg_match('/^data:([^;]+);base64,/', $base64Data, $matches)) {
+            $mimeType = $matches[1];
+            $base64Data = preg_replace('/^data:[^;]+;base64,/', '', $base64Data);
+        }
+
+        // Decode base64
+        $decoded = base64_decode($base64Data, true);
+        if ($decoded === false) {
+            throw new ApiValidationException(
+                "Field '{$field}' contains invalid base64 data",
+                ['field' => $field]
+            );
+        }
+
+        // Detect mime type from binary if not provided
+        if ($mimeType === null) {
+            $finfo = new \finfo(FILEINFO_MIME_TYPE);
+            $mimeType = $finfo->buffer($decoded);
+        }
+
+        if (!isset($allowedTypes[$mimeType])) {
+            throw new ApiValidationException(
+                "Field '{$field}' must be a valid image (jpeg, png, gif, webp)",
+                ['field' => $field, 'detected_type' => $mimeType]
+            );
+        }
+
+        return [
+            'data' => $decoded,
+            'extension' => $allowedTypes[$mimeType],
+            'mimeType' => $mimeType,
+        ];
+    }
+
+    /**
+     * Save base64 image to a temporary file
+     *
+     * @param string $base64Data Base64 encoded image
+     * @param string $field Field name for error messages
+     * @return string Path to temporary file
+     * @throws ValidationException If validation fails
+     */
+    public static function saveBase64ToTemp(string $base64Data, string $field): string {
+        $imageInfo = self::validateBase64Image($base64Data, $field);
+
+        $tempPath = sys_get_temp_dir() . '/' . uniqid('upload_') . '.' . $imageInfo['extension'];
+
+        if (file_put_contents($tempPath, $imageInfo['data']) === false) {
+            throw new ApiServerException('Failed to save uploaded image');
+        }
+
+        return $tempPath;
+    }
+
+    /**
      * Get pagination parameters from request data
      *
      * @param object|array $data Request data
